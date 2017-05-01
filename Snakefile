@@ -25,7 +25,7 @@ rule strip_reads:
 		xyalign = xyalign_path
 		sample_id = "{sample}_strip_reads"
 	shell:
-		"python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
+		"source activate xyalign_env && python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
 
 # rule prepare_reference_hg19:
 # 	input:
