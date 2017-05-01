@@ -21,11 +21,13 @@ rule strip_reads:
 		bam = lambda wildcards: orig_bam_directory + config["sample_bams"][wildcards.sample]
 	output:
 		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log"
+	threads:
+		4
 	params:
 		xyalign = xyalign_path,
 		sample_id = "{sample}_strip_reads"
 	shell:
-		"source activate xyalign_env && python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
+		"source activate xyalign_env && python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --cpus 4 --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
 
 # rule prepare_reference_hg19:
 # 	input:
