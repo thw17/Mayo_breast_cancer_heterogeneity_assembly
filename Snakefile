@@ -22,7 +22,7 @@ rule strip_reads:
 	output:
 		logfile = "{sample}_strip_reads_xyalign.log"
 	params:
-		xyalign = xyalign_path
+		xyalign = xyalign_path,
 		sample_id = "{sample}_strip_reads"
 	shell:
 		"source activate xyalign_env && python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
