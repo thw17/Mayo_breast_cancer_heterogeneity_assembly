@@ -20,7 +20,7 @@ rule strip_reads:
 	input:
 		bam = lambda wildcards: orig_bam_directory + config[wildcards.sample]
 	output:
-		logfile = "{sample}_strip_reads_xyalign.log"
+		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log"
 	params:
 		xyalign = xyalign_path,
 		sample_id = "{sample}_strip_reads"
