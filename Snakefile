@@ -14,13 +14,17 @@ xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
 
 rule all:
 	input:
-		expand("xyalign/logfiles/{sample}_strip_reads_xyalign.log", sample=config["sample_list"])
+		expand("xyalign/logfiles/{sample}_strip_reads_xyalign.log", sample=config["sample_list"]),
+		expand("xyalign/fastq/{sample}_1.fastq.gz", sample=config["sample_list"])),
+		expand("xyalign/fastq/{sample}_2.fastq.gz", sample=config["sample_list"]))
 
 rule strip_reads:
 	input:
 		bam = lambda wildcards: orig_bam_directory + config["sample_bams"][wildcards.sample]
 	output:
-		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log"
+		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log",
+		fq1 = "xyalign/fastq/{sample}_1.fastq",
+		fq2 = "xyalign/fastq/{sample}_2.fastq"
 	params:
 		xyalign = xyalign_path,
 		sample_id = "{sample}_strip_reads",
@@ -28,6 +32,22 @@ rule strip_reads:
 		cpus = "4"
 	shell:
 		"source activate xyalign_env && python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --cpus {params.cpus} --xmx {params.xmx} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
+
+rule gzip_stripped_reads:
+	# After stripping reads, they seemed to simply follow a "single read group
+	# per sample, with the sample name as the readgroup name" format.  So,
+	# should be able to simply gzip based on xyalign naming output fastqs
+	# after the read groups, which happen to be sample names
+	input:
+		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log",
+		fq1 = "xyalign/fastq/{sample}_1.fastq",
+		fq2 = "xyalign/fastq/{sample}_2.fastq"
+	output:
+		gz_fq1 = "xyalign/fastq/{sample}_1.fastq.gz",
+		gz_fq2 = "xyalign/fastq/{sample}_2.fastq.gz"
+	run:
+		shell("gzip {output.fq1}")
+		shell("gzip {output.fq2}")
 
 # rule prepare_reference_hg19:
 # 	input:
