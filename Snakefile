@@ -23,8 +23,8 @@ rule strip_reads:
 		bam = lambda wildcards: orig_bam_directory + config["sample_bams"][wildcards.sample]
 	output:
 		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log",
-		fq1 = "xyalign/fastq/{sample}_1.fastq",
-		fq2 = "xyalign/fastq/{sample}_2.fastq"
+		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq",
+		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq"
 	params:
 		xyalign = xyalign_path,
 		sample_id = "{sample}_strip_reads",
@@ -40,11 +40,11 @@ rule gzip_stripped_reads:
 	# after the read groups, which happen to be sample names
 	input:
 		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log",
-		fq1 = "xyalign/fastq/{sample}_1.fastq",
-		fq2 = "xyalign/fastq/{sample}_2.fastq"
+		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq",
+		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq"
 	output:
-		gz_fq1 = "xyalign/fastq/{sample}_1.fastq.gz",
-		gz_fq2 = "xyalign/fastq/{sample}_2.fastq.gz"
+		gz_fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
+		gz_fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz"
 	run:
 		shell("gzip {output.fq1}")
 		shell("gzip {output.fq2}")
