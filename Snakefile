@@ -15,8 +15,8 @@ xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
 rule all:
 	input:
 		expand("xyalign/logfiles/{sample}_strip_reads_xyalign.log", sample=config["sample_list"]),
-		expand("xyalign/fastq/{sample}_1.fastq.gz", sample=config["sample_list"]),
-		expand("xyalign/fastq/{sample}_2.fastq.gz", sample=config["sample_list"])
+		expand("xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz", sample=config["sample_list"]),
+		expand("xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz", sample=config["sample_list"])
 
 rule strip_reads:
 	input:
