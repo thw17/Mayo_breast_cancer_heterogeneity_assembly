@@ -46,8 +46,8 @@ rule gzip_stripped_reads:
 		gz_fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
 		gz_fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz"
 	run:
-		shell("gzip {output.gz_fq1}")
-		shell("gzip {output.gz_fq2}")
+		shell("gzip {input.fq1}")
+		shell("gzip {input.fq2}")
 
 # rule prepare_reference_hg19:
 # 	input:
