@@ -116,7 +116,7 @@ rule map_and_process_trimmed_reads_hg19:
 		" {params.bwa} mem -t {threads} -R "
 		"'@RG\\tID:{params.id}\\tSM:{params.sm}\\tLB:{params.lb}\\tPU:{params.pu}\\tPL:{params.pl}' "
 		"{input.ref} {input.fq1} {input.fq2}"
-		"| {params.samblaster} | "
+		"| {params.samblaster} "
 		"| {params.samtools} fixmate -O bam - - | {params.samtools} sort "
 		"-O bam -o {output}"
 
@@ -142,7 +142,7 @@ rule map_and_process_trimmed_reads_hg38:
 		" {params.bwa} mem -t {threads} -R "
 		"'@RG\\tID:{params.id}\\tSM:{params.sm}\\tLB:{params.lb}\\tPU:{params.pu}\\tPL:{params.pl}' "
 		"{input.ref} {input.fq1} {input.fq2}"
-		"| {params.samblaster} | "
+		"| {params.samblaster} "
 		"| {params.samtools} fixmate -O bam - - | {params.samtools} sort "
 		"-O bam -o {output}"
 #
