@@ -226,4 +226,172 @@
 		"PU": "C5C2YACXX.7",
 		"PL": "Illumina"
 	},
+
+	"PS13-585-A11-P5": {
+		"ID": "PS13-585-A11-P5",
+		"SM": "PS13-585-A11-P5",
+		"LB": "PS13-585-A11-P5",
+		"PU": "C3L4BACXX.7",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A12-P3": {
+		"ID": "PS13-585-A12-P3",
+		"SM": "PS13-585-A12-P3",
+		"LB": "PS13-585-A12-P3",
+		"PU": "C3L4BACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A12-P5": {
+		"ID": "PS13-585-A12-P5",
+		"SM": "PS13-585-A12-P5",
+		"LB": "PS13-585-A12-P5",
+		"PU": "C3L4BACXX.7",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A1-P3": {
+		"ID": "PS13-585-A1-P3",
+		"SM": "PS13-585-A1-P3",
+		"LB": "PS13-585-A1-P3",
+		"PU": "C3L4BACXX.1",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A2-P3": {
+		"ID": "PS13-585-A2-P3",
+		"SM": "PS13-585-A2-P3",
+		"LB": "PS13-585-A2-P3",
+		"PU": "C3L4BACXX.1",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A3-P3": {
+		"ID": "PS13-585-A3-P3",
+		"SM": "PS13-585-A3-P3",
+		"LB": "PS13-585-A3-P3",
+		"PU": "C3L4BACXX.1",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A3-P5": {
+		"ID": "PS13-585-A3-P5",
+		"SM": "PS13-585-A3-P5",
+		"LB": "PS13-585-A3-P5",
+		"PU": "C3L4BACXX.5",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A4-P3": {
+		"ID": "PS13-585-A4-P3",
+		"SM": "PS13-585-A4-P3",
+		"LB": "PS13-585-A4-P3",
+		"PU": "C3L4BACXX.2",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A4-P5": {
+		"ID": "PS13-585-A4-P5",
+		"SM": "PS13-585-A4-P5",
+		"LB": "PS13-585-A4-P5",
+		"PU": "C3L4BACXX.6",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A5-P3": {
+		"ID": "PS13-585-A5-P3",
+		"SM": "PS13-585-A5-P3",
+		"LB": "PS13-585-A5-P3",
+		"PU": "C3L4BACXX.2",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A6-P3-rep": {
+		"ID": "PS13-585-A6-P3-rep",
+		"SM": "PS13-585-A6-P3-rep",
+		"LB": "PS13-585-A6-P3-rep",
+		"PU": "C5C2YACXX.6",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A7-P3": {
+		"ID": "PS13-585-A7-P3",
+		"SM": "PS13-585-A7-P3",
+		"LB": "PS13-585-A7-P3",
+		"PU": "C3L4BACXX.2",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A8-P3": {
+		"ID": "PS13-585-A8-P3",
+		"SM": "PS13-585-A8-P3",
+		"LB": "PS13-585-A8-P3",
+		"PU": "C3L4BACXX.3",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A8-P5": {
+		"ID": "PS13-585-A8-P5",
+		"SM": "PS13-585-A8-P5",
+		"LB": "PS13-585-A8-P5",
+		"PU": "C3L4BACXX.6",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-B1-P3": {
+		"ID": "PS13-585-B1-P3",
+		"SM": "PS13-585-B1-P3",
+		"LB": "PS13-585-B1-P3",
+		"PU": "C3L4BACXX.5",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-B2-P3": {
+		"ID": "PS13-585-B2-P3",
+		"SM": "PS13-585-B2-P3",
+		"LB": "PS13-585-B2-P3",
+		"PU": "C3L4BACXX.5",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-B3-P3-rep": {
+		"ID": "PS13-585-B3-P3-rep",
+		"SM": "PS13-585-B3-P3-rep",
+		"LB": "PS13-585-B3-P3-rep",
+		"PU": "C5C2YACXX.6",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-D1-P3": {
+		"ID": "PS13-585-D1-P3",
+		"SM": "PS13-585-D1-P3",
+		"LB": "PS13-585-D1-P3",
+		"PU": "C3L4BACXX.8",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-F1-P3": {
+		"ID": "PS13-585-F1-P3",
+		"SM": "PS13-585-F1-P3",
+		"LB": "PS13-585-F1-P3",
+		"PU": "C3L4BACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-F2-P3": {
+		"ID": "PS13-585-F2-P3",
+		"SM": "PS13-585-F2-P3",
+		"LB": "PS13-585-F2-P3",
+		"PU": "C3L4BACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-Normal": {
+		"ID": "PS13-585-Normal",
+		"SM": "PS13-585-Normal",
+		"LB": "PS13-585-Normal",
+		"PU": "C3L4BACXX.4",
+		"PL": "Illumina"
+	}
 }
