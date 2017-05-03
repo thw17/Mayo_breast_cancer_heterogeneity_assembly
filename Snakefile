@@ -5,7 +5,9 @@ configfile: "breast_cancer_config.json"
 
 
 hg19_ref_path = "reference/ucsc.hg19.fasta"
+hg19_ref_prefix = "reference/ucsc.hg19"
 hg38_ref_path = "reference/Homo_sapiens_assembly38.fasta"
+hg38_ref_prefix = "reference/Homo_sapiens_assembly38"
 
 orig_bam_directory = "/mnt/storage/SAYRES/MAYO/"
 
