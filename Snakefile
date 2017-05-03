@@ -95,7 +95,7 @@ rule prepare_reference_hg38:
 rule map_and_process_trimmed_reads_hg19:
 	input:
 		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
-		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz"
+		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz",
 		fai = hg19_ref_path + ".fai",
 		ref = hg19_ref_path
 	output:
@@ -121,7 +121,7 @@ rule map_and_process_trimmed_reads_hg19:
 rule map_and_process_trimmed_reads_hg38:
 	input:
 		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
-		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz"
+		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz",
 		fai = hg38_ref_path + ".fai",
 		ref = hg38_ref_path
 	output:
