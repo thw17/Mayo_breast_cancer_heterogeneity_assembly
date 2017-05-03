@@ -81,5 +81,149 @@
 		"PS13-585-F1-P3",
 		"PS13-585-F2-P3",
 		"PS13-585-Normal"
-	]
+	],
+
+	"PS13-1750-A0-P4": {
+		"ID": "PS13-1750-A0-P4",
+		"SM": "PS13-1750-A0-P4",
+		"LB": "PS13-1750-A0-P4",
+		"PU": "C4G9MACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A10-P4": {
+		"ID": "PS13-1750-A10-P4",
+		"SM": "PS13-1750-A10-P4",
+		"LB": "PS13-1750-A10-P4",
+		"PU": "C4G9MACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A1-P4": {
+		"ID": "PS13-1750-A1-P4",
+		"SM": "PS13-1750-A1-P4",
+		"LB": "PS13-1750-A1-P4",
+		"PU": "C4G9MACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A2-P4": {
+		"ID": "PS13-1750-A2-P4",
+		"SM": "PS13-1750-A2-P4",
+		"LB": "PS13-1750-A2-P4",
+		"PU": "C4G9MACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A2-P5": {
+		"ID": "PS13-1750-A2-P5",
+		"SM": "PS13-1750-A2-P5",
+		"LB": "PS13-1750-A2-P5",
+		"PU": "C4G9MACXX.5",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A3-P4": {
+		"ID": "PS13-1750-A3-P4",
+		"SM": "PS13-1750-A3-P4",
+		"LB": "PS13-1750-A3-P4",
+		"PU": "C4G9MACXX.5",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A4-P4": {
+		"ID": "PS13-1750-A4-P4",
+		"SM": "PS13-1750-A4-P4",
+		"LB": "PS13-1750-A4-P4",
+		"PU": "C4G9MACXX.5",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A5-P4": {
+		"ID": "PS13-1750-A5-P4",
+		"SM": "PS13-1750-A5-P4",
+		"LB": "PS13-1750-A5-P4",
+		"PU": "C4G9MACXX.6",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A6-P4": {
+		"ID": "PS13-1750-A6-P4",
+		"SM": "PS13-1750-A6-P4",
+		"LB": "PS13-1750-A6-P4",
+		"PU": "C4G9MACXX.6",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A7-P4": {
+		"ID": "PS13-1750-A7-P4",
+		"SM": "PS13-1750-A7-P4",
+		"LB": "PS13-1750-A7-P4",
+		"PU": "C4G9MACXX.6",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A8-P4": {
+		"ID": "PS13-1750-A8-P4",
+		"SM": "PS13-1750-A8-P4",
+		"LB": "PS13-1750-A8-P4",
+		"PU": "C4G9MACXX.7",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-A9-P4": {
+		"ID": "PS13-1750-A9-P4",
+		"SM": "PS13-1750-A9-P4",
+		"LB": "PS13-1750-A9-P4",
+		"PU": "C4G9MACXX.7",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-LeftBreast-N-P3": {
+		"ID": "PS13-1750-LeftBreast-N-P3",
+		"SM": "PS13-1750-LeftBreast-N-P3",
+		"LB": "PS13-1750-LeftBreast-N-P3",
+		"PU": "C4G9MACXX.8",
+		"PL": "Illumina"
+	},
+
+	"PS13-1750-RightBreast-N-P3": {
+		"ID": "PS13-1750-RightBreast-N-P3",
+		"SM": "PS13-1750-RightBreast-N-P3",
+		"LB": "PS13-1750-RightBreast-N-P3",
+		"PU": "C4G9MACXX.8",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A10-P3": {
+		"ID": "PS13-585-A10-P3",
+		"SM": "PS13-585-A10-P3",
+		"LB": "PS13-585-A10-P3",
+		"PU": "C3L4BACXX.3",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A10-P5": {
+		"ID": "PS13-585-A10-P5",
+		"SM": "PS13-585-A10-P5",
+		"LB": "PS13-585-A10-P5",
+		"PU": "C3L4BACXX.6",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A10-P6": {
+		"ID": "PS13-585-A10-P6",
+		"SM": "PS13-585-A10-P6",
+		"LB": "PS13-585-A10-P6",
+		"PU": "C3L4BACXX.7",
+		"PL": "Illumina"
+	},
+
+	"PS13-585-A11-P3-rep": {
+		"ID": "PS13-585-A11-P3-rep",
+		"SM": "PS13-585-A11-P3-rep",
+		"LB": "PS13-585-A11-P3-rep",
+		"PU": "C5C2YACXX.7",
+		"PL": "Illumina"
+	},
 }
