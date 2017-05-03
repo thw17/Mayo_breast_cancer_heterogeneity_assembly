@@ -135,7 +135,8 @@ rule map_and_process_trimmed_reads_hg38:
 		pu = lambda wildcards: config[wildcards.sample]["PU"],
 		pl = lambda wildcards: config[wildcards.sample]["PL"],
 		bwa = bwa_path,
-		samtools =  samtools_path
+		samtools =  samtools_path,
+		samblaster = samblaster_path
 	threads: 4
 	shell:
 		" {params.bwa} mem -t {threads} -R "
