@@ -9,13 +9,22 @@ hg19_ref_prefix = "reference/ucsc.hg19"
 hg38_ref_path = "reference/Homo_sapiens_assembly38.fasta"
 hg38_ref_prefix = "reference/Homo_sapiens_assembly38"
 
+dbsnp_138_hg19_path = "misc/dbsnp_138.hg19.vcf"
+dbsnp_138_hg38_path = "misc/dbsnp_138.hg38.vcf"
+dpsnp_146_hg38_path = "misc/dbsnp_146.hg38.vcf"
+mills_1kg_indels_hg19 = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf"
+mills_1kg_indels_hg38 = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf"
+
 orig_bam_directory = "/mnt/storage/SAYRES/MAYO/"
+temp_dir_path = "temp/"
 
 bwa_path = "bwa"
 samtools_path = "samtools"
 samblaster_path = "samblaster"
+bgzip_path = "bgzip"
+tabix_path = "tabix"
 # freebayes_path =
-# gatk_path =
+gatk_path = "/home/thwebste/Tools/GenomeAnalysisTK_37.jar"
 # picard_path =
 xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
 
@@ -25,7 +34,9 @@ rule all:
 		expand("xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz", sample=config["sample_list"]),
 		expand("xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz", sample=config["sample_list"]),
 		expand("processed_bams/{sample}.hg38.sorted.bam", sample=config["sample_list"]),
-		expand("processed_bams/{sample}.hg19.sorted.bam", sample=config["sample_list"])
+		expand("processed_bams/{sample}.hg19.sorted.bam", sample=config["sample_list"]),
+		expand("stats/{sample}.hg19.mkdup.sorted.bam.stats", sample=config["sample_list"]),
+		expand("stats/{sample}.hg38.mkdup.sorted.bam.stats", sample=config["sample_list"])
 
 rule strip_reads:
 	input:
@@ -94,6 +105,47 @@ rule prepare_reference_hg38:
 		# bwa
 		shell("{params.bwa} index {input}")
 
+rule bgzip_and_index_hg19_files:
+	input:
+		dbsnp = dbsnp_138_hg19_path,
+		mills = mills_1kg_indels_hg19
+	output:
+		dbsnp_gz = "misc/dbsnp_138.hg19.vcf.gz",
+		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz",
+		dbsnp_idx = "misc/dbsnp_138.hg19.vcf.gz.tbi",
+		mills_idx = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz.tbi"
+	params:
+		bgzip = bgzip_path,
+		tabix = tabix_path
+	run:
+		shell("{params.bgzip} {input.dbsnp}")
+		shell("{params.bgzip} {input.mills}")
+		shell("{params.tabix} -p vcf {input.dbsnp}.gz")
+		shell("{params.tabix} -p vcf {input.mills}.gz")
+
+rule bgzip_and_index_hg38_files:
+	input:
+		dbsnp138 = dbsnp_138_hg38_path,
+		mills = mills_1kg_indels_hg38,
+		dbsnp146 = dpsnp_146_hg38_path
+	output:
+		dbsnp138_gz = "misc/dbsnp_138.hg38.vcf.gz",
+		dbsnp146_gz = "misc/dbsnp_148.hg38.vcf.gz",
+		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
+		dbsnp138_idx = "misc/dbsnp_138.hg38.vcf.gz.tbi",
+		dbsnp146_idx = "misc/dbsnp_148.hg38.vcf.gz.tbi",
+		mills_idx = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi"
+	params:
+		bgzip = bgzip_path,
+		tabix = tabix_path
+	run:
+		shell("{params.bgzip} {input.dbsnp138}")
+		shell("{params.bgzip} {input.dbsnp146}")
+		shell("{params.bgzip} {input.mills}")
+		shell("{params.tabix} -p vcf {input.dbsnp138}.gz")
+		shell("{params.tabix} -p vcf {input.dbsnp146}.gz")
+		shell("{params.tabix} -p vcf {input.mills}.gz")
+
 rule map_and_process_trimmed_reads_hg19:
 	input:
 		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
@@ -145,6 +197,72 @@ rule map_and_process_trimmed_reads_hg38:
 		"| {params.samblaster} "
 		"| {params.samtools} fixmate -O bam - - | {params.samtools} sort "
 		"-O bam -o {output}"
+
+rule base_quality_recalibration_hg19_step1:
+	input:
+		bam = "processed_bams/{sample}.hg19.sorted.bam",
+		dbsnp_gz = "misc/dbsnp_138.hg19.vcf.gz",
+		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz",
+		ref = hg19_ref_path
+	output:
+		recal = "stats/{sample}_recalibration_report_hg19.grp"
+	params:
+		gatk = gatk_path,
+		temp_dir = temp_dir_path,
+		java_mem = "-Xmx16g"
+	shell:
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T BaseRecalibrator -R {input.ref} -I {input.bam} -o {output.recal} -knownSites {input.dbsnp_gz} -knownSites {input.mills_gz}"
+
+rule base_quality_recalibration_hg19_step2:
+	input:
+		bam = "processed_bams/{sample}.hg19.sorted.bam",
+		ref = hg19_ref_path,
+		recal = "stats/{sample}_recalibration_report_hg19.grp"
+	output:
+		bam = "processed_bams/{sample}.hg19.sorted.mkdup.recal.bam"
+	params:
+		gatk = gatk_path,
+		temp_dir = temp_dir_path,
+		java_mem = "-Xmx16g"
+	shell:
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BSQR {input.recal} -o {output.bam}"
+
+rule base_quality_recalibration_hg38_step1:
+	input:
+		bam = "processed_bams/{sample}.hg38.sorted.bam",
+		dbsnp_gz = "misc/dbsnp_138.hg38.vcf.gz",
+		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
+		ref = hg38_ref_path
+	output:
+		recal = "stats/{sample}_recalibration_report_hg38.grp"
+	params:
+		gatk = gatk_path,
+		temp_dir = temp_dir_path,
+		java_mem = "-Xmx16g"
+	shell:
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T BaseRecalibrator -R {input.ref} -I {input.bam} -o {output.recal} -knownSites {input.dbsnp_gz} -knownSites {input.mills_gz}"
+
+rule base_quality_recalibration_hg38_step2:
+	input:
+		bam = "processed_bams/{sample}.hg38.sorted.bam",
+		ref = hg19_ref_path,
+		recal = "stats/{sample}_recalibration_report_hg38.grp"
+	output:
+		bam = "processed_bams/{sample}.hg38.sorted.mkdup.recal.bam"
+	params:
+		gatk = gatk_path,
+		temp_dir = temp_dir_path,
+		java_mem = "-Xmx16g"
+	shell:
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BSQR {input.recal} -o {output.bam}"
+
+rule bam_stats:
+	input:
+		"processed_bams/{sample}.{chrom}.sorted.mkdup.recal.bam"
+	output:
+		"stats/{sample}.{chrom}.mkdup.sorted.bam.stats"
+	shell:
+		"samtools stats {input} | grep ^SN | cut -f 2- > {output}"
 #
 # rule freebayes_call_single_chrom:
 # 	input:
