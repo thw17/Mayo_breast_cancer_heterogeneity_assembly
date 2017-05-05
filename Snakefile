@@ -198,9 +198,23 @@ rule map_and_process_trimmed_reads_hg38:
 		"| {params.samtools} fixmate -O bam - - | {params.samtools} sort "
 		"-O bam -o {output}"
 
+rule index_initial_bams:
+	input:
+		bam_19 = "processed_bams/{sample}.hg19.sorted.bam",
+		bam_38 = "processed_bams/{sample}.hg38.sorted.bam"
+	output:
+		bam_19_idx = "processed_bams/{sample}.hg19.sorted.bam.bai",
+		bam_38_idx = "processed_bams/{sample}.hg38.sorted.bam.bai"
+	params:
+		samtools = samtools_path
+	run:
+		shell("{params.samtools} index {input.bam_19}")
+		shell("{params.samtools} index {input.bam_38}")
+
 rule base_quality_recalibration_hg19_step1:
 	input:
 		bam = "processed_bams/{sample}.hg19.sorted.bam",
+		bam_idx = "processed_bams/{sample}.hg19.sorted.bam.bai",
 		dbsnp_gz = "misc/dbsnp_138.hg19.vcf.gz",
 		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz",
 		ref = hg19_ref_path
@@ -230,6 +244,7 @@ rule base_quality_recalibration_hg19_step2:
 rule base_quality_recalibration_hg38_step1:
 	input:
 		bam = "processed_bams/{sample}.hg38.sorted.bam",
+		bam_idx = "processed_bams/{sample}.hg38.sorted.bam.bai"
 		dbsnp_gz = "misc/dbsnp_138.hg38.vcf.gz",
 		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
 		ref = hg38_ref_path
