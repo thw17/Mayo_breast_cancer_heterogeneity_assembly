@@ -105,47 +105,6 @@ rule prepare_reference_hg38:
 		# bwa
 		shell("{params.bwa} index {input}")
 
-rule bgzip_and_index_hg19_files:
-	input:
-		dbsnp = dbsnp_138_hg19_path,
-		mills = mills_1kg_indels_hg19
-	output:
-		dbsnp_gz = "misc/dbsnp_138.hg19.vcf.gz",
-		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz",
-		dbsnp_idx = "misc/dbsnp_138.hg19.vcf.gz.tbi",
-		mills_idx = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz.tbi"
-	params:
-		bgzip = bgzip_path,
-		tabix = tabix_path
-	run:
-		shell("{params.bgzip} {input.dbsnp}")
-		shell("{params.bgzip} {input.mills}")
-		shell("{params.tabix} -p vcf {input.dbsnp}.gz")
-		shell("{params.tabix} -p vcf {input.mills}.gz")
-
-rule bgzip_and_index_hg38_files:
-	input:
-		dbsnp138 = dbsnp_138_hg38_path,
-		mills = mills_1kg_indels_hg38,
-		dbsnp146 = dpsnp_146_hg38_path
-	output:
-		dbsnp138_gz = "misc/dbsnp_138.hg38.vcf.gz",
-		dbsnp146_gz = "misc/dbsnp_148.hg38.vcf.gz",
-		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
-		dbsnp138_idx = "misc/dbsnp_138.hg38.vcf.gz.tbi",
-		dbsnp146_idx = "misc/dbsnp_148.hg38.vcf.gz.tbi",
-		mills_idx = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz.tbi"
-	params:
-		bgzip = bgzip_path,
-		tabix = tabix_path
-	run:
-		shell("{params.bgzip} {input.dbsnp138}")
-		shell("{params.bgzip} {input.dbsnp146}")
-		shell("{params.bgzip} {input.mills}")
-		shell("{params.tabix} -p vcf {input.dbsnp138}.gz")
-		shell("{params.tabix} -p vcf {input.dbsnp146}.gz")
-		shell("{params.tabix} -p vcf {input.mills}.gz")
-
 rule map_and_process_trimmed_reads_hg19:
 	input:
 		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
