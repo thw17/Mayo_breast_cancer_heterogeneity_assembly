@@ -244,7 +244,7 @@ rule base_quality_recalibration_hg19_step2:
 rule base_quality_recalibration_hg38_step1:
 	input:
 		bam = "processed_bams/{sample}.hg38.sorted.bam",
-		bam_idx = "processed_bams/{sample}.hg38.sorted.bam.bai,
+		bam_idx = "processed_bams/{sample}.hg38.sorted.bam.bai",
 		dbsnp_gz = "misc/dbsnp_138.hg38.vcf.gz",
 		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
 		ref = hg38_ref_path
