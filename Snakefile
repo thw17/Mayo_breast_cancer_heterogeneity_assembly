@@ -198,7 +198,7 @@ rule base_quality_recalibration_hg19_step2:
 		temp_dir = temp_dir_path,
 		java_mem = "-Xmx16g"
 	shell:
-		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BSQR {input.recal} -o {output.bam}"
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BQSR {input.recal} -o {output.bam}"
 
 rule base_quality_recalibration_hg38_step1:
 	input:
@@ -228,7 +228,7 @@ rule base_quality_recalibration_hg38_step2:
 		temp_dir = temp_dir_path,
 		java_mem = "-Xmx16g"
 	shell:
-		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BSQR {input.recal} -o {output.bam}"
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BQSR {input.recal} -o {output.bam}"
 
 rule bam_stats:
 	input:
