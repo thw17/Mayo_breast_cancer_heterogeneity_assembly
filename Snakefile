@@ -219,7 +219,7 @@ rule base_quality_recalibration_hg38_step1:
 rule base_quality_recalibration_hg38_step2:
 	input:
 		bam = "processed_bams/{sample}.hg38.sorted.bam",
-		ref = hg19_ref_path,
+		ref = hg38_ref_path,
 		recal = "stats/{sample}_recalibration_report_hg38.grp"
 	output:
 		bam = "processed_bams/{sample}.hg38.sorted.mkdup.recal.bam"
