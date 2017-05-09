@@ -35,8 +35,10 @@ rule all:
 		expand("xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz", sample=config["sample_list"]),
 		expand("processed_bams/{sample}.hg38.sorted.bam", sample=config["sample_list"]),
 		expand("processed_bams/{sample}.hg19.sorted.bam", sample=config["sample_list"]),
-		expand("stats/{sample}.hg19.mkdup.sorted.bam.stats", sample=config["sample_list"]),
-		expand("stats/{sample}.hg38.mkdup.sorted.bam.stats", sample=config["sample_list"])
+		expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
+		expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
+		expand("stats/{sample}.hg19.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
+		expand("stats/{sample}.hg38.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"])
 
 rule strip_reads:
 	input:
