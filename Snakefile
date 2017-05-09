@@ -238,7 +238,7 @@ rule indel_targetcreator_hg19:
 		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz",
 		ref = hg19_ref_path
 	output:
-		target_list = "stats/{sample}_target_list_hg19.txt"
+		target_list = "stats/{sample}_target_list_hg19.list"
 	params:
 		gatk = gatk_path,
 		temp_dir = temp_dir_path,
@@ -251,7 +251,7 @@ rule indel_realignment_hg19:
 		bam = "processed_bams/{sample}.hg19.sorted.mkdup.recal.bam",
 		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz",
 		ref = hg19_ref_path,
-		target_list = "stats/{sample}_target_list_hg19.txt"
+		target_list = "stats/{sample}_target_list_hg19.list"
 	output:
 		bam = "processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam"
 	params:
@@ -267,7 +267,7 @@ rule indel_targetcreator_hg38:
 		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
 		ref = hg38_ref_path
 	output:
-		target_list = "stats/{sample}_target_list_hg38.txt"
+		target_list = "stats/{sample}_target_list_hg38.list"
 	params:
 		gatk = gatk_path,
 		temp_dir = temp_dir_path,
@@ -280,7 +280,7 @@ rule indel_realignment_hg38:
 		bam = "processed_bams/{sample}.hg38.sorted.mkdup.recal.bam",
 		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
 		ref = hg38_ref_path,
-		target_list = "stats/{sample}_target_list_hg38.txt"
+		target_list = "stats/{sample}_target_list_hg38.list"
 	output:
 		bam = "processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam"
 	params:
