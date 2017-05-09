@@ -230,11 +230,69 @@ rule base_quality_recalibration_hg38_step2:
 	shell:
 		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BQSR {input.recal} -o {output.bam}"
 
+rule indel_targetcreator_hg19:
+	input:
+		bam = "processed_bams/{sample}.hg19.sorted.mkdup.recal.bam",
+		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz",
+		ref = hg19_ref_path
+	output:
+		target_list = "stats/{sample}_target_list_hg19.txt"
+	params:
+		gatk = gatk_path,
+		temp_dir = temp_dir_path,
+		java_mem = "-Xmx16g"
+	shell:
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T RealignerTargetCreator -R {input.ref} -I {input.bam} -o {output.target_list} -known {input.mills_gz}"
+
+rule indel_realignment_hg19:
+	input:
+		bam = "processed_bams/{sample}.hg19.sorted.mkdup.recal.bam",
+		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz",
+		ref = hg19_ref_path,
+		target_list = "stats/{sample}_target_list_hg19.txt"
+	output:
+		bam = "processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam"
+	params:
+		gatk = gatk_path,
+		temp_dir = temp_dir_path,
+		java_mem = "-Xmx16g"
+	shell:
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T IndelRealigner -R {input.ref} -I {input.bam} -o {output.bam} -known {input.mills_gz} -targetIntervals {input.target_list}"
+
+rule indel_targetcreator_hg38:
+	input:
+		bam = "processed_bams/{sample}.hg38.sorted.mkdup.recal.bam",
+		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
+		ref = hg38_ref_path
+	output:
+		target_list = "stats/{sample}_target_list_hg38.txt"
+	params:
+		gatk = gatk_path,
+		temp_dir = temp_dir_path,
+		java_mem = "-Xmx16g"
+	shell:
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T RealignerTargetCreator -R {input.ref} -I {input.bam} -o {output.target_list} -known {input.mills_gz}"
+
+rule indel_realignment_hg38:
+	input:
+		bam = "processed_bams/{sample}.hg38.sorted.mkdup.recal.bam",
+		mills_gz = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz",
+		ref = hg38_ref_path,
+		target_list = "stats/{sample}_target_list_hg38.txt"
+	output:
+		bam = "processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam"
+	params:
+		gatk = gatk_path,
+		temp_dir = temp_dir_path,
+		java_mem = "-Xmx16g"
+	shell:
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T IndelRealigner -R {input.ref} -I {input.bam} -o {output.bam} -known {input.mills_gz} -targetIntervals {input.target_list}"
+
 rule bam_stats:
 	input:
-		"processed_bams/{sample}.{chrom}.sorted.mkdup.recal.bam"
+		"processed_bams/{sample}.{chrom}.sorted.mkdup.recal.indelrealigned.bam"
 	output:
-		"stats/{sample}.{chrom}.mkdup.sorted.bam.stats"
+		"stats/{sample}.{chrom}.mkdup.sorted.indel_realigned.bam.stats"
 	shell:
 		"samtools stats {input} | grep ^SN | cut -f 2- > {output}"
 #
