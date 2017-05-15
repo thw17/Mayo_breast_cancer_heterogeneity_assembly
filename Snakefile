@@ -318,7 +318,7 @@ rule freebayes_call_single_chrom_hg38:
 		bam = expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
 		ref = hg38_ref_path
 	output:
-		"calls/all.{chrom}.38.raw.vcf"
+		"calls/all.{chrom}.hg38.raw.vcf"
 	params:
 		region = "{chrom}",
 		freebayes = freebayes_path
