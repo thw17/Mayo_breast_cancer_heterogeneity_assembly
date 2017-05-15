@@ -302,7 +302,7 @@ rule bam_stats:
 
 rule freebayes_call_single_chrom_hg19:
 	input:
-		bam = expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", config["sample_list"]),
+		bam = expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
 		ref = hg19_ref_path
 	output:
 		"calls/all.{chrom}.hg19.raw.vcf"
@@ -315,7 +315,7 @@ rule freebayes_call_single_chrom_hg19:
 
 rule freebayes_call_single_chrom_hg38:
 	input:
-		bam = expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", config["sample_list"]),
+		bam = expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
 		ref = hg38_ref_path
 	output:
 		"calls/all.{chrom}.38.raw.vcf"
