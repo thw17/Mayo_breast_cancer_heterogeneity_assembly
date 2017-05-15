@@ -23,7 +23,7 @@ samtools_path = "samtools"
 samblaster_path = "samblaster"
 bgzip_path = "bgzip"
 tabix_path = "tabix"
-# freebayes_path =
+freebayes_path = "freebayes"
 gatk_path = "/home/thwebste/Tools/GenomeAnalysisTK_37.jar"
 # picard_path =
 xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
@@ -38,7 +38,9 @@ rule all:
 		expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
 		expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
 		expand("stats/{sample}.hg19.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
-		expand("stats/{sample}.hg38.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"])
+		expand("stats/{sample}.hg38.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
+		expand("calls/all.{chrom}.hg19.raw.vcf", chrom=config["chromosomes"]),
+		expand("calls/all.{chrom}.hg38.raw.vcf", chrom=config["chromosomes"])
 
 rule strip_reads:
 	input:
@@ -292,23 +294,34 @@ rule indel_realignment_hg38:
 
 rule bam_stats:
 	input:
-		"processed_bams/{sample}.{chrom}.sorted.mkdup.recal.indelrealigned.bam"
+		"processed_bams/{sample}.{genome}.sorted.mkdup.recal.indelrealigned.bam"
 	output:
-		"stats/{sample}.{chrom}.mkdup.sorted.indel_realigned.bam.stats"
+		"stats/{sample}.{genome}.mkdup.sorted.indel_realigned.bam.stats"
 	shell:
 		"samtools stats {input} | grep ^SN | cut -f 2- > {output}"
-#
-# rule freebayes_call_single_chrom:
-# 	input:
-# 		bam = expand("{sample}.sorted.rg.realigned.recal.FIXEDrg.bam", sample=samples),
-# 		bai = expand("{sample}.sorted.rg.realigned.recal.FIXEDrg.bam.bai", sample=samples),
-# 		ref = genome_path,
-# 		target_chrom = lambda wildcards: config["chromosomes"][wildcards.chrom]
-# 	output:
-# 		"calls/all.{chrom}.raw.vcf"
-# 	params:
-# 		region = {chrom},
-# 		freebayes = freebayes_path
-# 	threads: 4
-# 	shell:
-# 		"{params.freebayes} -f {input.ref} --region {params.region} --pooled-continuous --pooled-discrete -F 0.03 -C 2 --allele-balance-priors-off --genotype-qualities {input.bam} > {output}"
+
+rule freebayes_call_single_chrom_hg19:
+	input:
+		bam = expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=samples),
+		ref = hg19_ref_path
+	output:
+		"calls/all.{chrom}.hg19.raw.vcf"
+	params:
+		region = {chrom},
+		freebayes = freebayes_path
+	threads: 4
+	shell:
+		"{params.freebayes} -f {input.ref} --region {params.region} --pooled-continuous --pooled-discrete -F 0.03 -C 2 --allele-balance-priors-off --genotype-qualities {input.bam} > {output}"
+
+rule freebayes_call_single_chrom_hg38:
+	input:
+		bam = expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=samples),
+		ref = hg38_ref_path
+	output:
+		"calls/all.{chrom}.38.raw.vcf"
+	params:
+		region = {chrom},
+		freebayes = freebayes_path
+	threads: 4
+	shell:
+		"{params.freebayes} -f {input.ref} --region {params.region} --pooled-continuous --pooled-discrete -F 0.03 -C 2 --allele-balance-priors-off --genotype-qualities {input.bam} > {output}"
