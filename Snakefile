@@ -307,7 +307,7 @@ rule freebayes_call_single_chrom_hg19:
 	output:
 		"calls/all.{chrom}.hg19.raw.vcf"
 	params:
-		region = {chrom},
+		region = "{chrom}"",
 		freebayes = freebayes_path
 	threads: 4
 	shell:
@@ -320,7 +320,7 @@ rule freebayes_call_single_chrom_hg38:
 	output:
 		"calls/all.{chrom}.38.raw.vcf"
 	params:
-		region = {chrom},
+		region = "{chrom}"",
 		freebayes = freebayes_path
 	threads: 4
 	shell:
