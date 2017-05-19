@@ -39,8 +39,10 @@ rule all:
 		expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
 		expand("stats/{sample}.hg19.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
 		expand("stats/{sample}.hg38.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
-		expand("calls/all.{chrom}.hg19.raw.vcf", chrom=config["chromosomes"]),
-		expand("calls/all.{chrom}.hg38.raw.vcf", chrom=config["chromosomes"])
+		expand("calls/PS13-1750.{chrom}.hg19.raw.vcf", chrom=config["chromosomes"]),
+		expand("calls/PS13-585.{chrom}.hg19.raw.vcf", chrom=config["chromosomes"]),
+		expand("calls/PS13-1750.{chrom}.hg38.raw.vcf", chrom=config["chromosomes"]),
+		expand("calls/PS13-585.{chrom}.hg38.raw.vcf", chrom=config["chromosomes"])
 
 rule strip_reads:
 	input:
@@ -302,10 +304,10 @@ rule bam_stats:
 
 rule freebayes_call_single_chrom_hg19:
 	input:
-		bam = expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
+		bam = expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=config["{individual}"]),
 		ref = hg19_ref_path
 	output:
-		"calls/all.{chrom}.hg19.raw.vcf"
+		"calls/{individual}.{chrom}.hg19.raw.vcf"
 	params:
 		region = "{chrom}",
 		freebayes = freebayes_path
@@ -315,10 +317,10 @@ rule freebayes_call_single_chrom_hg19:
 
 rule freebayes_call_single_chrom_hg38:
 	input:
-		bam = expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
+		bam = expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["{individual}"]),
 		ref = hg38_ref_path
 	output:
-		"calls/all.{chrom}.hg38.raw.vcf"
+		"calls/{individual}.{chrom}.hg38.raw.vcf"
 	params:
 		region = "{chrom}",
 		freebayes = freebayes_path
