@@ -304,7 +304,7 @@ rule bam_stats:
 
 rule freebayes_call_single_chrom_hg19:
 	input:
-		bam = lamda wildcards: expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=config[wildcards.individual]),
+		bam = lambda wildcards: expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=config[wildcards.individual]),
 		ref = hg19_ref_path
 	output:
 		"calls/{individual}.{chrom}.hg19.raw.vcf"
@@ -317,7 +317,7 @@ rule freebayes_call_single_chrom_hg19:
 
 rule freebayes_call_single_chrom_hg38:
 	input:
-		bam = lamda wildcards: expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config[wildcards.individual]),
+		bam = lambda wildcards: expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config[wildcards.individual]),
 		ref = hg38_ref_path
 	output:
 		"calls/{individual}.{chrom}.hg38.raw.vcf"
