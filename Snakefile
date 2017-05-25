@@ -39,10 +39,10 @@ rule all:
 		expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
 		expand("stats/{sample}.hg19.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
 		expand("stats/{sample}.hg38.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
-		expand("calls/PS13-1750.{chrom}.hg19.raw.vcf", chrom=config["chromosomes"]),
-		expand("calls/PS13-585.{chrom}.hg19.raw.vcf", chrom=config["chromosomes"]),
-		expand("calls/PS13-1750.{chrom}.hg38.raw.vcf", chrom=config["chromosomes"]),
-		expand("calls/PS13-585.{chrom}.hg38.raw.vcf", chrom=config["chromosomes"])
+		expand("calls/PS13-1750.{chrom}.hg19.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
+		expand("calls/PS13-585.{chrom}.hg19.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
+		expand("calls/PS13-1750.{chrom}.hg38.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
+		expand("calls/PS13-585.{chrom}.hg38.raw.vcf.gz.tbi", chrom=config["chromosomes"])
 
 rule strip_reads:
 	input:
@@ -327,3 +327,19 @@ rule freebayes_call_single_chrom_hg38:
 	threads: 4
 	shell:
 		"{params.freebayes} -f {input.ref} --region {params.region} --pooled-continuous --pooled-discrete -F 0.03 -C 2 --allele-balance-priors-off --genotype-qualities {input.bam} > {output}"
+
+rule zip_vcfs:
+	input:
+		vcf = "calls/{individual}.{chrom}.{genome}.raw.vcf"
+	output:
+		"calls/{individual}.{chrom}.{genome}.raw.vcf.gz"
+	shell:
+		"bgzip {input.vcf}"
+
+rule index_zipped_vcf:
+	input:
+		"calls/{individual}.{chrom}.{genome}.raw.vcf.gz"
+	output:
+		"calls/{individual}.{chrom}.{genome}.raw.vcf.gz.tbi"
+	shell:
+		"tabix -p vcf {input}"
