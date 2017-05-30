@@ -1,3 +1,4 @@
+from __future__ import print_function
 import argparse
 import cyvcf2
 import numpy as np
@@ -44,12 +45,13 @@ def main():
 	mapq_threshold = args.mapq
 	depth_threshold = args.depth
 
-	vcf = VCF(args.input_vcf)
+	vcf = cyvcf2.VCF(args.input_vcf)
 
 	num_samples = len(vcf.samples)
 
 	sample_array = np.zeros((num_samples, num_samples), dtype=np.int)
 
+	counter = 0
 	for variant in vcf:
 		if variant.QUAL >= qual_threshold and variant.INFO('NS') == num_samples:
 			if all([variant.INFO('MQM'), variant.INFO('MQM')]) >= mapq_threshold:
@@ -60,6 +62,9 @@ def main():
 						for k in range(idx + 1, len(genotypes)):
 							if val != genotypes[k]:
 								sample_array[val][k] += 1
+		counter += 1
+		if counter % 10000 == 0:
+			print("{} records processed...".format(counter))
 
 	df = pd.DataFrame(data=sample_array, index=vcf.samples, columns=vcf.samples)
 	df.to_csv(args.output, sep="\t")
