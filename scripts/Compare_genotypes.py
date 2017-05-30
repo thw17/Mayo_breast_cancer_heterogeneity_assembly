@@ -54,7 +54,7 @@ def main():
 	counter = 0
 	for variant in vcf:
 		if variant.QUAL >= qual_threshold and variant.INFO.get('NS') == num_samples:
-			if all([variant.INFO('MQM'), variant.INFO('MQM')]) >= mapq_threshold:
+			if all([variant.INFO.get('MQM'), variant.INFO.get('MQM')]) >= mapq_threshold:
 				dp_array = variant.format('DP')
 				if len(dp_array[dp_array >= depth_threshold]):
 					genotypes = variant.gt_types
