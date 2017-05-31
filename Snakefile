@@ -42,7 +42,11 @@ rule all:
 		expand("calls/PS13-1750.{chrom}.hg19.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
 		expand("calls/PS13-585.{chrom}.hg19.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
 		expand("calls/PS13-1750.{chrom}.hg38.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
-		expand("calls/PS13-585.{chrom}.hg38.raw.vcf.gz.tbi", chrom=config["chromosomes"])
+		expand("calls/PS13-585.{chrom}.hg38.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
+		expand("stats/PS13-1750.{chrom}.hg19.compare_genotypes.txt", chrom=config["chromosomes"]),
+		expand("stats/PS13-585.{chrom}.hg19.compare_genotypes.txt", chrom=config["chromosomes"]),
+		expand("stats/PS13-1750.{chrom}.hg38.compare_genotypes.txt", chrom=config["chromosomes"]),
+		expand("stats/PS13-585.{chrom}.hg38.compare_genotypes.txt", chrom=config["chromosomes"])
 
 rule strip_reads:
 	input:
@@ -343,3 +347,12 @@ rule index_zipped_vcf:
 		"calls/{individual}.{chrom}.{genome}.raw.vcf.gz.tbi"
 	shell:
 		"tabix -p vcf {input}"
+
+rule compare_genotypes:
+	input:
+		vcf = "calls/{individual}.{chrom}.{genome}.raw.vcf.gz",
+		idx = "calls/{individual}.{chrom}.{genome}.raw.vcf.gz.tbi"
+	output:
+		"stats/{individual}.{chrom}.{genome}.compare_genotypes.txt"
+	shell:
+		"python scripts/Compare_genotypes.py --input_vcf {input.vcf} --output {output} --mapq 0"

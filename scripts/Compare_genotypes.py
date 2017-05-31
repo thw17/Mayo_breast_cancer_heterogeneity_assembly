@@ -33,6 +33,12 @@ def parse_args():
 		"*ALL* samples much be greater than or equal to this value for a site "
 		"to be included.")
 
+	parser.add_argument(
+		"--gq", type=int, default=30,
+		help="Minimum phred-scaled genotype quality (gq) per sample for a site "
+		"to be considered. *ALL* samples much be greater than or equal to this "
+		"value for a site to be included.")
+
 	args = parser.parse_args()
 
 	return args
@@ -44,6 +50,7 @@ def main():
 	qual_threshold = args.qual
 	mapq_threshold = args.mapq
 	depth_threshold = args.depth
+	gq_threshold = args.gq
 
 	vcf = cyvcf2.VCF(args.input_vcf)
 
@@ -54,14 +61,16 @@ def main():
 	counter = 0
 	for variant in vcf:
 		if variant.QUAL >= qual_threshold and variant.INFO.get('NS') == num_samples:
-			if all([variant.INFO.get('MQM'), variant.INFO.get('MQM')]) >= mapq_threshold:
+			if all([variant.INFO.get('MQM'), variant.INFO.get('MQMR')]) >= mapq_threshold:
 				dp_array = variant.format('DP')
-				if len(dp_array[dp_array >= depth_threshold]):
-					genotypes = variant.gt_types
-					for idx, val in enumerate(genotypes):
-						for k in range(idx + 1, len(genotypes)):
-							if val != genotypes[k]:
-								sample_array[val][k] += 1
+				qualities = variant.format('GQ')
+				if len(dp_array[dp_array >= depth_threshold]) == num_samples:
+					if len(qualities[qualities >= gq_threshold]) == num_samples:
+						genotypes = variant.gt_types
+						for idx, val in enumerate(genotypes):
+							for k in range(idx + 1, len(genotypes)):
+								if val != genotypes[k]:
+									sample_array[idx][k] += 1
 		counter += 1
 		if counter % 10000 == 0:
 			print("{} records processed...".format(counter))
