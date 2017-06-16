@@ -3,6 +3,11 @@ configfile: "breast_cancer_config.json"
 # Removed "PS13-585-B3-P3-rep" from the sample list due to inconsistency
 # file name and read group name inside.
 
+normal_1750 = "PS13-1750-RightBreast-N-P3"
+normal_585 = "PS13-585-Normal"
+
+tumor_1750 = [x for x in config["PS13-1750"] if x != normal_1750]
+tumor_585 = [x for x in config["PS13-585"] if x != normal_585]
 
 hg19_ref_path = "reference/ucsc.hg19.fasta"
 hg19_ref_prefix = "reference/ucsc.hg19"
@@ -14,6 +19,10 @@ dbsnp_138_hg38_path = "misc/dbsnp_138.hg38.vcf"
 dpsnp_146_hg38_path = "misc/dbsnp_146.hg38.vcf"
 mills_1kg_indels_hg19 = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf"
 mills_1kg_indels_hg38 = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf"
+cosmic_coding_hg19 =
+cosmic_noncoding_hg19 =
+cosmic_coding_hg38 =
+cosmic_noncoding_hg38 =
 
 orig_bam_directory = "/mnt/storage/SAYRES/MAYO/"
 temp_dir_path = "temp/"
@@ -25,6 +34,7 @@ bgzip_path = "bgzip"
 tabix_path = "tabix"
 freebayes_path = "freebayes"
 gatk_path = "/home/thwebste/Tools/GenomeAnalysisTK_37.jar"
+mutect_path = "/home/thwebste/Tools/mutect-1.1.7.jar"
 # picard_path =
 xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
 
@@ -331,6 +341,13 @@ rule freebayes_call_single_chrom_hg38:
 	threads: 4
 	shell:
 		"{params.freebayes} -f {input.ref} --region {params.region} --pooled-continuous --pooled-discrete -F 0.03 -C 2 --allele-balance-priors-off --genotype-qualities {input.bam} > {output}"
+
+# rule mutect2_single_chrom_585:
+# 	input:
+# 		bam = "processed_bams/{sample}.{genome}.sorted.mkdup.recal.indelrealigned.bam",
+# 		ref =
+#
+# rule mutect2_single_chrom_1750:
 
 rule zip_vcfs:
 	input:
