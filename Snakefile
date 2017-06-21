@@ -1,8 +1,5 @@
 configfile: "breast_cancer_config.json"
 
-# Removed "PS13-585-B3-P3-rep" from the sample list due to inconsistency
-# file name and read group name inside.
-
 normal_1750 = "PS13-1750-RightBreast-N-P3"
 normal_585 = "PS13-585-Normal"
 
@@ -342,11 +339,35 @@ rule freebayes_call_single_chrom_hg38:
 	shell:
 		"{params.freebayes} -f {input.ref} --region {params.region} --pooled-continuous --pooled-discrete -F 0.03 -C 2 --allele-balance-priors-off --genotype-qualities {input.bam} > {output}"
 
-# rule mutect2_single_chrom_585:
-# 	input:
-# 		bam = "processed_bams/{sample}.{genome}.sorted.mkdup.recal.indelrealigned.bam",
-# 		ref =
-#
+rule combine_cosmic_vcfs_hg19:
+	input:
+		noncoding = cosmic_noncoding_hg19,
+		coding = cosmic_coding_hg19,
+		ref = hg19_ref_path
+	output:
+		"misc/cosmic_hg19_combined.vcf.gz"
+	params:
+		temp_dir = temp_dir_path,
+		gatk = gatk_path
+	shell:
+		"java -Xmx12g -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk_path} -T CombineVariants -R {input.ref} --variant {input.coding} --variant {input.noncoding} -o {output}"
+
+rule mutect2_single_chrom_585_hg19:
+	input:
+		bam = "processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam",
+		bai = "processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam.bai",
+		normal = "processed_bams/PS13-585-Normal.hg19.sorted.mkdup.recal.indelrealigned.bam",
+		ref = hg19_ref_path,
+		dbsnp_gz = "misc/dbsnp_138.hg19.vcf.gz",
+		cosmic = "misc/cosmic_hg19_combined.vcf.gz"
+	output:
+		"vcf/{sample}.hg19.mutect2.raw.vcf.gz"
+	params:
+		temp_dir = temp_dir_path,
+		gatk = gatk_path
+	shell:
+		"java -Xmx12g -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk_path} -T MuTect2 -R {input.ref} -I:tumor {input.bam} -I:normal {input.normal} --dbsnp {input.dbsnp_gz} --cosmic {input.cosmic} -o {output}"
+
 # rule mutect2_single_chrom_1750:
 
 rule zip_vcfs:
