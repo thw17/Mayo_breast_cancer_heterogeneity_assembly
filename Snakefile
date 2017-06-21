@@ -356,7 +356,6 @@ rule combine_cosmic_vcfs_hg19:
 rule mutect2_single_chrom_585_hg19:
 	input:
 		bam = "processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam",
-		bai = "processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam.bai",
 		normal = "processed_bams/PS13-585-Normal.hg19.sorted.mkdup.recal.indelrealigned.bam",
 		ref = hg19_ref_path,
 		dbsnp_gz = "misc/dbsnp_138.hg19.vcf.gz",
