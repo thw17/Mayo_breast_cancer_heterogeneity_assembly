@@ -16,10 +16,10 @@ dbsnp_138_hg38_path = "misc/dbsnp_138.hg38.vcf"
 dpsnp_146_hg38_path = "misc/dbsnp_146.hg38.vcf"
 mills_1kg_indels_hg19 = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf"
 mills_1kg_indels_hg38 = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf"
-cosmic_coding_hg19 =
-cosmic_noncoding_hg19 =
-cosmic_coding_hg38 =
-cosmic_noncoding_hg38 =
+cosmic_coding_hg19 = "/home/thwebste/Data/COSMIC/CosmicCodingMuts_v81_hg19.vcf.gz"
+cosmic_noncoding_hg19 = "/home/thwebste/Data/COSMIC/CosmicNonCodingVariants_v81_hg19.vcf.gz"
+cosmic_coding_hg38 = "/home/thwebste/Data/COSMIC/CosmicCodingMuts_v81_hg38.vcf.gz"
+cosmic_noncoding_hg38 = "/home/thwebste/Data/COSMIC/CosmicNonCodingVariants_v81_hg38.vcf.gz"
 
 orig_bam_directory = "/mnt/storage/SAYRES/MAYO/"
 temp_dir_path = "temp/"
