@@ -363,7 +363,7 @@ rule index_zipped_vcf:
 rule combine_cosmic_vcfs_hg19:
 	input:
 		noncoding = "misc/CosmicNonCodingVariants_v81_hg19.vcf.gz",
-		noncoding_idx = "misc/CosmicNonCodingVariants_v81_hg19.vcf.gz.tbi"
+		noncoding_idx = "misc/CosmicNonCodingVariants_v81_hg19.vcf.gz.tbi",
 		coding = "misc/CosmicCodingVariants_v81_hg19.vcf.gz",
 		coding_idx = "misc/CosmicCodingVariants_v81_hg19.vcf.gz.tbi",
 		ref = hg19_ref_path
