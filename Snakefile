@@ -53,7 +53,8 @@ rule all:
 		expand("stats/PS13-1750.{chrom}.hg19.compare_genotypes.txt", chrom=config["chromosomes"]),
 		expand("stats/PS13-585.{chrom}.hg19.compare_genotypes.txt", chrom=config["chromosomes"]),
 		expand("stats/PS13-1750.{chrom}.hg38.compare_genotypes.txt", chrom=config["chromosomes"]),
-		expand("stats/PS13-585.{chrom}.hg38.compare_genotypes.txt", chrom=config["chromosomes"])
+		expand("stats/PS13-585.{chrom}.hg38.compare_genotypes.txt", chrom=config["chromosomes"]),
+		expand("vcf/{sample}.585.hg19.mutect2.raw.vcf.gz", sample=tumor_585)
 
 rule strip_reads:
 	input:
@@ -361,7 +362,7 @@ rule mutect2_single_chrom_585_hg19:
 		dbsnp_gz = "misc/dbsnp_138.hg19.vcf.gz",
 		cosmic = "misc/cosmic_hg19_combined.vcf.gz"
 	output:
-		"vcf/{sample}.hg19.mutect2.raw.vcf.gz"
+		"vcf/{sample}.585.hg19.mutect2.raw.vcf.gz"
 	params:
 		temp_dir = temp_dir_path,
 		gatk = gatk_path
