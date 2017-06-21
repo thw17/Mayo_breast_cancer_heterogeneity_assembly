@@ -351,7 +351,7 @@ rule combine_cosmic_vcfs_hg19:
 		temp_dir = temp_dir_path,
 		gatk = gatk_path
 	shell:
-		"java -Xmx12g -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk_path} -T CombineVariants -R {input.ref} --variant {input.coding} --variant {input.noncoding} -o {output}"
+		"java -Xmx12g -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T CombineVariants -R {input.ref} --variant {input.coding} --variant {input.noncoding} -o {output}"
 
 rule mutect2_single_chrom_585_hg19:
 	input:
@@ -366,7 +366,7 @@ rule mutect2_single_chrom_585_hg19:
 		temp_dir = temp_dir_path,
 		gatk = gatk_path
 	shell:
-		"java -Xmx12g -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk_path} -T MuTect2 -R {input.ref} -I:tumor {input.bam} -I:normal {input.normal} --dbsnp {input.dbsnp_gz} --cosmic {input.cosmic} -o {output}"
+		"java -Xmx12g -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T MuTect2 -R {input.ref} -I:tumor {input.bam} -I:normal {input.normal} --dbsnp {input.dbsnp_gz} --cosmic {input.cosmic} -o {output}"
 
 # rule mutect2_single_chrom_1750:
 
