@@ -16,10 +16,10 @@ dbsnp_138_hg38_path = "misc/dbsnp_138.hg38.vcf"
 dpsnp_146_hg38_path = "misc/dbsnp_146.hg38.vcf"
 mills_1kg_indels_hg19 = "misc/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf"
 mills_1kg_indels_hg38 = "misc/Mills_and_1000G_gold_standard.indels.hg38.vcf"
-cosmic_coding_hg19 = "/home/thwebste/Data/COSMIC/CosmicCodingMuts_v81_hg19.vcf.gz"
-cosmic_noncoding_hg19 = "/home/thwebste/Data/COSMIC/CosmicNonCodingVariants_v81_hg19.vcf.gz"
-cosmic_coding_hg38 = "/home/thwebste/Data/COSMIC/CosmicCodingMuts_v81_hg38.vcf.gz"
-cosmic_noncoding_hg38 = "/home/thwebste/Data/COSMIC/CosmicNonCodingVariants_v81_hg38.vcf.gz"
+# cosmic_coding_hg19 = "/home/thwebste/Data/COSMIC/CosmicCodingMuts_v81_hg19.vcf.gz"
+# cosmic_noncoding_hg19 = "/home/thwebste/Data/COSMIC/CosmicNonCodingVariants_v81_hg19.vcf.gz"
+# cosmic_coding_hg38 = "/home/thwebste/Data/COSMIC/CosmicCodingMuts_v81_hg38.vcf.gz"
+# cosmic_noncoding_hg38 = "/home/thwebste/Data/COSMIC/CosmicNonCodingVariants_v81_hg38.vcf.gz"
 
 orig_bam_directory = "/mnt/storage/SAYRES/MAYO/"
 temp_dir_path = "temp/"
@@ -340,10 +340,32 @@ rule freebayes_call_single_chrom_hg38:
 	shell:
 		"{params.freebayes} -f {input.ref} --region {params.region} --pooled-continuous --pooled-discrete -F 0.03 -C 2 --allele-balance-priors-off --genotype-qualities {input.bam} > {output}"
 
+rule zip_cosmic_vcf:
+	input:
+		vcf = "misc/Cosmic{type}_v81_{genome}.vcf"
+	output:
+		"misc/Cosmic{type}_v81_{genome}.vcf.gz"
+	params:
+		bgzip = bgzip_path
+	shell:
+		"{params.bgzip} {input.vcf}"
+
+rule index_zipped_vcf:
+	input:
+		vcf = "misc/Cosmic{type}_v81_{genome}.vcf.gz"
+	output:
+		"misc/Cosmic{type}_v81_{genome}.vcf.gz.tbi"
+	params:
+		tabix = tabix_path
+	shell:
+		"{params.tabix} -p vcf {input}"
+
 rule combine_cosmic_vcfs_hg19:
 	input:
-		noncoding = cosmic_noncoding_hg19,
-		coding = cosmic_coding_hg19,
+		noncoding = "misc/CosmicNonCodingVariants_v81_hg19.vcf.gz",
+		noncoding_idx = "misc/CosmicNonCodingVariants_v81_hg19.vcf.gz.tbi"
+		coding = "misc/CosmicCodingVariants_v81_hg19.vcf.gz",
+		coding_idx = "misc/CosmicCodingVariants_v81_hg19.vcf.gz.tbi",
 		ref = hg19_ref_path
 	output:
 		"misc/cosmic_hg19_combined.vcf.gz"
@@ -352,6 +374,7 @@ rule combine_cosmic_vcfs_hg19:
 		gatk = gatk_path
 	shell:
 		"java -Xmx12g -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T CombineVariants -R {input.ref} --variant {input.coding} --variant {input.noncoding} -o {output}"
+
 
 rule mutect2_single_chrom_585_hg19:
 	input:
