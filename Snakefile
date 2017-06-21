@@ -350,7 +350,7 @@ rule zip_cosmic_vcf:
 	shell:
 		"{params.bgzip} {input.vcf}"
 
-rule index_zipped_vcf:
+rule index_zipped_cosmic_vcf:
 	input:
 		vcf = "misc/Cosmic{type}_v81_{genome}.vcf.gz"
 	output:
