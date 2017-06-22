@@ -37,23 +37,57 @@ xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
 
 rule all:
 	input:
-		expand("xyalign/logfiles/{sample}_strip_reads_xyalign.log", sample=config["sample_list"]),
-		expand("xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz", sample=config["sample_list"]),
-		expand("xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz", sample=config["sample_list"]),
-		expand("processed_bams/{sample}.hg38.sorted.bam", sample=config["sample_list"]),
-		expand("processed_bams/{sample}.hg19.sorted.bam", sample=config["sample_list"]),
-		expand("processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
-		expand("processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam", sample=config["sample_list"]),
-		expand("stats/{sample}.hg19.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
-		expand("stats/{sample}.hg38.mkdup.sorted.indel_realigned.bam.stats", sample=config["sample_list"]),
-		expand("calls/PS13-1750.{chrom}.hg19.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
-		expand("calls/PS13-585.{chrom}.hg19.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
-		expand("calls/PS13-1750.{chrom}.hg38.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
-		expand("calls/PS13-585.{chrom}.hg38.raw.vcf.gz.tbi", chrom=config["chromosomes"]),
-		expand("stats/PS13-1750.{chrom}.hg19.compare_genotypes.txt", chrom=config["chromosomes"]),
-		expand("stats/PS13-585.{chrom}.hg19.compare_genotypes.txt", chrom=config["chromosomes"]),
-		expand("stats/PS13-1750.{chrom}.hg38.compare_genotypes.txt", chrom=config["chromosomes"]),
-		expand("stats/PS13-585.{chrom}.hg38.compare_genotypes.txt", chrom=config["chromosomes"]),
+		expand(
+			"xyalign/logfiles/{sample}_strip_reads_xyalign.log",
+			sample=config["sample_list"]),
+		expand(
+			"xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
+			sample=config["sample_list"]),
+		expand(
+			"xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz",
+			sample=config["sample_list"]),
+		expand(
+			"processed_bams/{sample}.hg38.sorted.bam",
+			sample=config["sample_list"]),
+		expand(
+			"processed_bams/{sample}.hg19.sorted.bam",
+			sample=config["sample_list"]),
+		expand(
+			"processed_bams/{sample}.hg19.sorted.mkdup.recal.indelrealigned.bam",
+			sample=config["sample_list"]),
+		expand(
+			"processed_bams/{sample}.hg38.sorted.mkdup.recal.indelrealigned.bam",
+			sample=config["sample_list"]),
+		expand(
+			"stats/{sample}.hg19.mkdup.sorted.indel_realigned.bam.stats",
+			sample=config["sample_list"]),
+		expand(
+			"stats/{sample}.hg38.mkdup.sorted.indel_realigned.bam.stats",
+			sample=config["sample_list"]),
+		expand(
+			"calls/PS13-1750.{chrom}.hg19.raw.vcf.gz.tbi",
+			chrom=config["chromosomes"]),
+		expand(
+			"calls/PS13-585.{chrom}.hg19.raw.vcf.gz.tbi",
+			chrom=config["chromosomes"]),
+		expand(
+			"calls/PS13-1750.{chrom}.hg38.raw.vcf.gz.tbi",
+			chrom=config["chromosomes"]),
+		expand(
+			"calls/PS13-585.{chrom}.hg38.raw.vcf.gz.tbi",
+			chrom=config["chromosomes"]),
+		expand(
+			"stats/PS13-1750.{chrom}.hg19.compare_genotypes.txt",
+			chrom=config["chromosomes"]),
+		expand(
+			"stats/PS13-585.{chrom}.hg19.compare_genotypes.txt",
+			chrom=config["chromosomes"]),
+		expand(
+			"stats/PS13-1750.{chrom}.hg38.compare_genotypes.txt",
+			chrom=config["chromosomes"]),
+		expand(
+			"stats/PS13-585.{chrom}.hg38.compare_genotypes.txt",
+			chrom=config["chromosomes"]),
 		expand("vcf/{sample}.585.hg19.mutect2.raw.vcf.gz", sample=tumor_585)
 
 rule strip_reads:
