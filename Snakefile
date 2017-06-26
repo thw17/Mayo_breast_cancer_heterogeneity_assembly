@@ -6,10 +6,10 @@ normal_585 = "PS13-585-Normal"
 tumor_1750 = [x for x in config["PS13-1750"] if x != normal_1750]
 tumor_585 = [x for x in config["PS13-585"] if x != normal_585]
 
-hg19_ref_path = "reference/ucsc.hg19.fasta"
-hg19_ref_prefix = "reference/ucsc.hg19"
-hg38_ref_path = "reference/Homo_sapiens_assembly38.fasta"
-hg38_ref_prefix = "reference/Homo_sapiens_assembly38"
+# hg19_ref_path = "reference/ucsc.hg19.fasta"
+# hg19_ref_prefix = "reference/ucsc.hg19"
+# hg38_ref_path = "reference/Homo_sapiens_assembly38.fasta"
+# hg38_ref_prefix = "reference/Homo_sapiens_assembly38"
 
 # dbsnp_138_hg19_path = "misc/dbsnp_138.hg19.vcf"
 # dbsnp_138_hg38_path = "misc/dbsnp_138.hg38.vcf"
@@ -166,7 +166,7 @@ rule map_and_process_trimmed_reads:
 		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz",
 		fai = "xyalign/reference/{assembly}.XXonly.fasta.fai",
 		amb = "xyalign/reference/{assembly}.XXonly.fasta.amb",
-		dict = "xyalign/reference/{assembly}.XXonly.dict"
+		dict = "xyalign/reference/{assembly}.XXonly.dict",
 		ref = "xyalign/reference/{assembly}.XXonly.fasta"
 	output:
 		"processed_bams/{sample}.{assembly}.sorted.bam"
