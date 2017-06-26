@@ -198,8 +198,7 @@ rule index_initial_bams:
 	input:
 		bam = "processed_bams/{sample}.{assembly}.sorted.bam",
 	output:
-		bam_idx = "processed_bams/{sample}.{assembly}.sorted.bam.bai",
-
+		bam_idx = "processed_bams/{sample}.{assembly}.sorted.bam.bai"
 	params:
 		samtools = samtools_path
 	shell:
