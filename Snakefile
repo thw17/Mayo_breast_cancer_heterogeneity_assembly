@@ -142,7 +142,7 @@ rule xyalign_create_xx_reference:
 	threads:
 		4
 	shell:
-		"source activate {params.xyalign_env} && python {params.xyalign} --PREPARE_REFERENCE --ref {input.ref} --bam null --xx_ref_out {params.gen_version}.XXonly.fasta"
+		"source activate {params.xyalign_env} && python {params.xyalign} --PREPARE_REFERENCE --ref {input.ref} --bam null --xx_ref_out {params.gen_assembly}.XXonly.fasta"
 
 rule prepare_reference:
 	input:
