@@ -111,8 +111,10 @@ rule strip_reads:
 		sample_id = "{sample}_strip_reads",
 		xmx = "16g",
 		cpus = "4"
+	conda:
+		"environments/breast_cancer_xyalign.yaml"
 	shell:
-		"source activate {params.xyalign_env} && python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --cpus {params.cpus} --xmx {params.xmx} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
+		"python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --cpus {params.cpus} --xmx {params.xmx} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
 
 rule gzip_stripped_reads:
 	# After stripping reads, they seemed to simply follow a "single read group
@@ -139,10 +141,12 @@ rule xyalign_create_xx_reference:
 		xyalign = xyalign_path,
 		xyalign_env = xyalign_env_name,
 		gen_assembly = "{assembly}"
+	conda:
+		"environments/breast_cancer_xyalign.yaml"
 	threads:
 		4
 	shell:
-		"source activate {params.xyalign_env} && python {params.xyalign} --PREPARE_REFERENCE --ref {input.ref} --bam null --xx_ref_out {params.gen_assembly}.XXonly.fasta --xx_ref_out {params.gen_assembly}.XY.fasta --output_dir xyalign --x_chromosome chrX --y_chromosome chrY"
+		"python {params.xyalign} --PREPARE_REFERENCE --ref {input.ref} --bam null --xx_ref_out {params.gen_assembly}.XXonly.fasta --xx_ref_out {params.gen_assembly}.XY.fasta --output_dir xyalign --x_chromosome chrX --y_chromosome chrY"
 
 rule prepare_reference:
 	input:
