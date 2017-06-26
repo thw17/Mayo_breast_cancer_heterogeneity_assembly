@@ -10,7 +10,7 @@
 
 	"dbsnp": {
 		"hg19": "misc/dbsnp_138.hg19.vcf.gz",
-		"hg38": "misc/dbsnp_146.hg38.vcf.gz",
+		"hg38": "misc/dbsnp_146.hg38.vcf.gz"
 	},
 
 	"mills": {
