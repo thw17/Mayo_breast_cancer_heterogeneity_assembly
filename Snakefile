@@ -107,11 +107,12 @@ rule strip_reads:
 		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq"
 	params:
 		xyalign = xyalign_path,
+		xyalign_env = xyalign_env_name,
 		sample_id = "{sample}_strip_reads",
 		xmx = "16g",
 		cpus = "4"
 	shell:
-		"source activate xyalign_env && python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --cpus {params.cpus} --xmx {params.xmx} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
+		"source activate {params.xyalign_env} && python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --cpus {params.cpus} --xmx {params.xmx} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
 
 rule gzip_stripped_reads:
 	# After stripping reads, they seemed to simply follow a "single read group
