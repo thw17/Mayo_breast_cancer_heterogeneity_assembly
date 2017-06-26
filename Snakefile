@@ -262,7 +262,7 @@ rule indel_realignment:
 
 rule freebayes_call_single_chrom:
 	input:
-		bam = lambda wildcards: expand("processed_bams/{sample}.{{assembly}}.sorted.mkdup.recal.indelrealigned.bam", sample=config[wildcards.individual]),
+		bam = expand("processed_bams/{sample}.{{assembly}}.sorted.mkdup.recal.indelrealigned.bam", sample=config[individual]),
 		ref = "xyalign/reference/{assembly}.XXonly.fasta"
 	output:
 		"calls/{individual}.{chrom}.{assembly}.raw.vcf"
