@@ -146,7 +146,7 @@ rule xyalign_create_xx_reference:
 	threads:
 		4
 	shell:
-		"python {params.xyalign} --PREPARE_REFERENCE --ref {input.ref} --bam null --xx_ref_out {params.gen_assembly}.XXonly.fasta --xx_ref_out {params.gen_assembly}.XY.fasta --output_dir xyalign --x_chromosome chrX --y_chromosome chrY"
+		"python {params.xyalign} --PREPARE_REFERENCE --ref {input.ref} --bam null --xx_ref_out {params.gen_assembly}.XXonly.fasta --xy_ref_out {params.gen_assembly}.XY.fasta --output_dir xyalign --x_chromosome chrX --y_chromosome chrY"
 
 rule prepare_reference:
 	input:
