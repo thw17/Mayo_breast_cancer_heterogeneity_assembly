@@ -335,10 +335,38 @@ rule index_zipped_vcf:
 	shell:
 		"tabix -p vcf {input}"
 
-rule compare_genotypes:
+rule filter_vcfs:
 	input:
 		vcf = "calls/{individual}.{chrom}.{assembly}.raw.vcf.gz",
-		idx = "calls/{individual}.{chrom}.{assembly}.raw.vcf.gz.tbi"
+		tbi = "calls/{individual}.{chrom}.{assembly}.raw.vcf.gz.tbi"
+	output:
+		"calls/{individual}.{chrom}.{assembly}.filtered.vcf"
+	params:
+		filter_script = "scripts/Filter_vcf.py"
+		num_samples = lambda wildcards: len(config[wildcards.assembly])
+	shell:
+		"python {params.filter_script} --vcf {input.vcf} --output_vcf {output} --QUAL 30 --sample_depth 10 --min_samples {params.num_samples} --min_support 3 --genotype_quality 30"
+
+rule zip_vcfs:
+	input:
+		vcf = "calls/{individual}.{chrom}.{assembly}.filtered.vcf"
+	output:
+		"calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz"
+	shell:
+		"bgzip {input.vcf}"
+
+rule index_zipped_vcf:
+	input:
+		"calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz"
+	output:
+		"calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz.tbi"
+	shell:
+		"tabix -p vcf {input}"
+
+rule compare_genotypes:
+	input:
+		vcf = "calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz",
+		idx = "calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz.tbi"
 	output:
 		"stats/{individual}.{chrom}.{assembly}.compare_genotypes.txt"
 	shell:
