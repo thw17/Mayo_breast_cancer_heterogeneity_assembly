@@ -33,7 +33,7 @@ def parse_args():
 		help="Minimum depth per sample required to retain site.  Default is 0.")
 
 	parser.add_argument(
-		"--type", type=str.upper, nargs=*, default=["ALL"], choices=[
+		"--type", type=str.upper, nargs="*", default=["ALL"], choices=[
 			"ALL", "SNP", "INDEL", "MNP", "COMPLEX", "INS", "DEL"],
 		help="Type of variant to retain. Default is to retain all.  Choices "
 		"include (can be either all uppcase or all lower case): all, snp, "
