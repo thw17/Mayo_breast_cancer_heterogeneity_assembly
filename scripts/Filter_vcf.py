@@ -67,13 +67,13 @@ def main():
 		"Filter_vcf_CMD=python Filter_vcf.py "
 		"--vcf {} "
 		"--output_vcf {} "
-		"--variant_caller {}"
+		"--variant_caller {} "
 		"--min_samples {} "
 		"--QUAL {} "
 		"--sample_depth {} "
 		"--min_support {} "
 		"--genotype_quality {} "
-		"--type {} ".format(
+		"--type ".format(
 			str(args.vcf),
 			str(args.output_vcf),
 			str(args.variant_caller),
