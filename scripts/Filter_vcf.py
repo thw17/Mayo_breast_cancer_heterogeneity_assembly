@@ -128,7 +128,7 @@ def main():
 		out_vcf.write_record(variant)
 
 	out_vcf.close()
-	vcf.close()
+	# vcf.close()
 
 if __name__ == "__main__":
 	main()
