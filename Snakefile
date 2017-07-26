@@ -347,7 +347,7 @@ rule filter_vcfs:
 	shell:
 		"python {params.filter_script} --vcf {input.vcf} --output_vcf {output} --QUAL 30 --sample_depth 10 --min_samples {params.num_samples} --min_support 3 --genotype_quality 30"
 
-rule zip_vcfs:
+rule zip_filtered_vcfs:
 	input:
 		vcf = "calls/{individual}.{chrom}.{assembly}.filtered.vcf"
 	output:
@@ -355,7 +355,7 @@ rule zip_vcfs:
 	shell:
 		"bgzip {input.vcf}"
 
-rule index_zipped_vcf:
+rule index_zipped_filtered_vcfs:
 	input:
 		"calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz"
 	output:
