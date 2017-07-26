@@ -75,14 +75,14 @@ def main():
 		"--genotype_quality {} "
 		"--type {} ".format(
 			str(args.vcf),
-			str(output_vcf),
-			str(variant_caller),
-			str(min_samples),
-			str(QUAL),
-			str(sample_depth),
-			str(min_support),
-			str(genotype_quality),
-			str(type)))
+			str(args.output_vcf),
+			str(args.variant_caller),
+			str(args.min_samples),
+			str(args.QUAL),
+			str(args.sample_depth),
+			str(args.min_support),
+			str(args.genotype_quality),
+			str(args.type)))
 
 	out_vcf = cyvcf2.Writer(args.output_vcf, vcf)
 
