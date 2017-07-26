@@ -114,15 +114,15 @@ def main():
 		gt_alt = variant.gt_alt_depths
 		if args.min_support > 0:
 			passing = 0
-			for i in enumerate(gt):
+			for idx, i in enumerate(gt):
 				if i == 0:
-					if gt_ref[i] > args.min_support:
+					if gt_ref[idx] >= args.min_support:
 						passing += 1
 				elif i == 1:
-					if gt_ref[i] > args.min_support and gt_alt[i] > args.min_support:
+					if gt_ref[idx] >= args.min_support and gt_alt[idx] >= args.min_support:
 						passing += 1
 				elif i == 2:
-					if gt_alt > args.min_support:
+					if gt_alt[idx] >= args.min_support:
 						passing += 1
 			if passing < args.min_samples:
 				continue
