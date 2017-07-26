@@ -1,6 +1,7 @@
 from __future__ import print_function
 import argparse
 import cyvcf2
+import numpy as np
 
 
 def parse_args():
