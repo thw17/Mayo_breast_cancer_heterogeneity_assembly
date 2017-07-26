@@ -342,7 +342,7 @@ rule filter_vcfs:
 	output:
 		"calls/{individual}.{chrom}.{assembly}.filtered.vcf"
 	params:
-		filter_script = "scripts/Filter_vcf.py"
+		filter_script = "scripts/Filter_vcf.py",
 		num_samples = lambda wildcards: len(config[wildcards.assembly])
 	shell:
 		"python {params.filter_script} --vcf {input.vcf} --output_vcf {output} --QUAL 30 --sample_depth 10 --min_samples {params.num_samples} --min_support 3 --genotype_quality 30"
