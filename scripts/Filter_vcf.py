@@ -89,7 +89,7 @@ def main():
 	for variant in vcf:
 		if variant.QUAL < args.QUAL:
 			continue
-		if variant.INFO.get("DP") < args.min_samples * sample_depth:
+		if variant.INFO.get("DP") < args.min_samples * args.sample_depth:
 			continue
 		if args.var_type != "ALL":
 			var_type = variant.INFO.get("type")
