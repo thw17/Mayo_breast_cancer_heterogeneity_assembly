@@ -33,7 +33,7 @@ def parse_args():
 		help="Minimum depth per sample required to retain site.  Default is 0.")
 
 	parser.add_argument(
-		"--type", type=str.upper, nargs="*", default=["ALL"], choices=[
+		"--var_type", type=str.upper, nargs="*", default=["ALL"], choices=[
 			"ALL", "SNP", "INDEL", "MNP", "COMPLEX", "INS", "DEL"],
 		help="Type of variant to retain. Default is to retain all.  Choices "
 		"include (can be either all uppcase or all lower case): all, snp, "
@@ -82,7 +82,7 @@ def main():
 			str(args.sample_depth),
 			str(args.min_support),
 			str(args.genotype_quality),
-			str(args.type)))
+			str(args.var_type)))
 
 	out_vcf = cyvcf2.Writer(args.output_vcf, vcf)
 
@@ -91,14 +91,14 @@ def main():
 			continue
 		if variant.INFO.get("DP") < args.min_samples * sample_depth:
 			continue
-		if args.type != "ALL":
+		if args.var_type != "ALL":
 			var_type = variant.INFO.get("type")
-			if args.type == "INDEL":
+			if args.var_type == "INDEL":
 				if var_type != "ins":
 					if var_type != "del":
 						continue
 			else:
-				if var_type != args.type.lower():
+				if var_type != args.var_type.lower():
 					continue
 		dp = variant.format('DP')
 		dp = dp[np.where(dp >= args.sample_depth)]
