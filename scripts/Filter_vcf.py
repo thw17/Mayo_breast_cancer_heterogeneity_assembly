@@ -103,7 +103,6 @@ def main():
 					continue
 		dp = variant.format('DP')
 		dp = dp[np.where(dp >= args.sample_depth)]
-		print(len(dp))
 		if len(dp) < args.min_samples:
 			continue
 		gq = variant.format('GQ')
@@ -113,19 +112,20 @@ def main():
 		gt = variant.gt_types
 		gt_ref = variant.gt_ref_depths
 		gt_alt = variant.gt_alt_depths
-		passing = 0
-		for i in enumerate(gt):
-			if i == 0:
-				if gt_ref[i] > args.min_support:
-					passing += 1
-			elif i == 1:
-				if gt_ref[i] > args.min_support and gt_alt[i] > args.min_support:
-					passing += 1
-			elif i == 2:
-				if gt_alt > args.min_support:
-					passing += 1
-		if passing < args.min_samples:
-			continue
+		if args.min_support > 0:
+			passing = 0
+			for i in enumerate(gt):
+				if i == 0:
+					if gt_ref[i] > args.min_support:
+						passing += 1
+				elif i == 1:
+					if gt_ref[i] > args.min_support and gt_alt[i] > args.min_support:
+						passing += 1
+				elif i == 2:
+					if gt_alt > args.min_support:
+						passing += 1
+			if passing < args.min_samples:
+				continue
 		out_vcf.write_record(variant)
 
 	out_vcf.close()
