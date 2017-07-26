@@ -82,7 +82,7 @@ def main():
 			str(sample_depth),
 			str(min_support),
 			str(genotype_quality),
-			str(type))
+			str(type)))
 
 	out_vcf = cyvcf2.Writer(args.output_vcf, vcf)
 
