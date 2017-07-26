@@ -1,11 +1,11 @@
-from future import print_function
+from __future__ import print_function
 import argparse
 import cyvcf2
 
 
 def parse_args():
 	""" Parse command line arguments """
-	parser.argparse.ArgumentParser(
+	parser = argparse.ArgumentParser(
 		description="This program filters VCF files based on user defined "
 		"thresholds")
 
@@ -18,7 +18,7 @@ def parse_args():
 		help="Output VCF file.")
 
 	parser.add_argument(
-		"--variant_caller", type=str.lower(),
+		"--variant_caller", type=str.lower,
 		default="freebayes", choices=["freebayes"],
 		help="Variant caller used.  Currently only supports freebayes.  Default "
 		"is freebayes.")
@@ -93,7 +93,7 @@ def main():
 			continue
 		if args.type != "ALL":
 			var_type = variant.INFO.get("type")
-			if args.type = "INDEL":
+			if args.type == "INDEL":
 				if var_type != "ins":
 					if var_type != "del":
 						continue
@@ -128,3 +128,6 @@ def main():
 
 	out_vcf.close()
 	vcf.close()
+
+if __name__ == "__main__":
+	main()
