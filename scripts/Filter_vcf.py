@@ -64,7 +64,7 @@ def main():
 	vcf = cyvcf2.VCF(args.vcf)
 
 	vcf.add_to_header(
-		"Filter_vcf_CMD=python Filter_vcf.py "
+		"##Filter_vcf_CMD=python Filter_vcf.py "
 		"--vcf {} "
 		"--output_vcf {} "
 		"--variant_caller {} "
@@ -73,7 +73,7 @@ def main():
 		"--sample_depth {} "
 		"--min_support {} "
 		"--genotype_quality {} "
-		"--type ".format(
+		"--type {}".format(
 			str(args.vcf),
 			str(args.output_vcf),
 			str(args.variant_caller),
@@ -81,8 +81,8 @@ def main():
 			str(args.QUAL),
 			str(args.sample_depth),
 			str(args.min_support),
-			str(args.genotype_quality)))
-			# str(args.var_type)))
+			str(args.genotype_quality),
+			str(args.var_type)))
 
 	out_vcf = cyvcf2.Writer(args.output_vcf, vcf)
 
