@@ -103,6 +103,7 @@ def main():
 					continue
 		dp = variant.format('DP')
 		dp = dp[np.where(dp >= args.sample_depth)]
+		print(dp)
 		if len(dp) < args.min_samples:
 			continue
 		gq = variant.format('GQ')
