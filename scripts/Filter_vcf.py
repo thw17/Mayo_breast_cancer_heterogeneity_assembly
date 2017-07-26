@@ -53,8 +53,10 @@ def parse_args():
 		help="Minimum phred-scaled genotype quality per sample. "
 		"Default is 0.")
 
+
 	args = parser.parse_args()
 
+	print(args.var_type)
 	return args
 
 
