@@ -53,7 +53,6 @@ def parse_args():
 		help="Minimum phred-scaled genotype quality per sample. "
 		"Default is 0.")
 
-
 	args = parser.parse_args()
 
 	return args
@@ -82,8 +81,8 @@ def main():
 			str(args.QUAL),
 			str(args.sample_depth),
 			str(args.min_support),
-			str(args.genotype_quality),
-			str(args.var_type)))
+			str(args.genotype_quality)))
+			# str(args.var_type)))
 
 	out_vcf = cyvcf2.Writer(args.output_vcf, vcf)
 
