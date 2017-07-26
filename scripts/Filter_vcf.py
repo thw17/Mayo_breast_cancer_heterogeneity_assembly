@@ -103,7 +103,7 @@ def main():
 					continue
 		dp = variant.format('DP')
 		dp = dp[np.where(dp >= args.sample_depth)]
-		if len(dp) < min_samples:
+		if len(dp) < args.min_samples:
 			continue
 		gq = variant.format('GQ')
 		gq = gq[np.where(gq >= args.genotype_quality)]
@@ -123,7 +123,7 @@ def main():
 			elif i == 2:
 				if gt_alt > args.min_support:
 					passing += 1
-		if passing < min_samples:
+		if passing < args.min_samples:
 			continue
 		out_vcf.write_record(variant)
 
