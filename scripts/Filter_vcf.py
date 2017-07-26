@@ -24,7 +24,7 @@ def parse_args():
 		"is freebayes.")
 
 	parser.add_argument(
-		"--QUAL", type=int, default=0
+		"--QUAL", type=int, default=0,
 		help="Minimum phred-scaled *site* quality (QUAL column of vcf). "
 		"Default is 0.")
 
@@ -49,7 +49,7 @@ def parse_args():
 		help="Minimum number of reads supporting an allele. Integer. Default is 0.")
 
 	parser.add_argument(
-		"--genotype_quality", type=int, default=0
+		"--genotype_quality", type=int, default=0,
 		help="Minimum phred-scaled genotype quality per sample. "
 		"Default is 0.")
 
