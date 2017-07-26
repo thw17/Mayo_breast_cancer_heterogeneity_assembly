@@ -61,7 +61,7 @@ def parse_args():
 def main():
 	args = parse_args()
 
-	vcf = cyvcf2.VCF(args.input_vcf)
+	vcf = cyvcf2.VCF(args.vcf)
 
 	vcf.add_to_header(
 		"Filter_vcf_CMD=python Filter_vcf.py "
