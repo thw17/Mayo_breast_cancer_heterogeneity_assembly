@@ -46,8 +46,36 @@ def main():
 		except IndexError:
 			normal_idx = 0
 
-	data_dict = {}
+	geno_dict = {}
 	for i in samples:
-		data_dict[i] = [i]
+		geno_dict[i] = [i]
+
+	balance_dict = {}
+	for i in samples:
+		balance_dict[i] = [i]
+
 	for variant in vcf:
-		
+		gen_list = variant.genotype
+		for idx, i in enumerate(samples):
+			genotype = gen_list[idx]
+			if genotype[:2] == [0, 0]:
+				geno_dict[i].append(0)
+			elif genotype[:2] == [0, 1]:
+				geno_dict[i].append(1)
+			elif genotype[:2] == [1, 1]:
+				geno_dict[i].append(2)
+			elif genotype[:2] == [1, 2]:
+				geno_dict[i].append(3)
+			elif genotype[:2] == [2, 2]:
+				geno_dict[i].append(4)
+			else:
+				geno_dict[i].append(5)
+
+# Output genotype table
+output_list = []
+for indv in samples:
+	output_list.append(geno_dict[indv])
+outfile = args.output
+with open(outfile, "w") as f:
+	w = csv.writer(f, dialect="excel-tab")
+	w.writerows(output_list)
