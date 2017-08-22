@@ -11,7 +11,7 @@ def parse_args():
 		description="This program takes an input VCF file and outputs a table "
 		"for downstream analysis. This program does not filter or split "
 		"sites by chromosome. Of particular note is that its designed to "
-		"take a VCF with no missing data.")
+		"take a VCF with no missing data.  Currently only supports Freebayes output")
 
 	parser.add_argument(
 		"--vcf", required=True,
@@ -56,6 +56,19 @@ def main():
 
 	for variant in vcf:
 		gen_list = variant.genotype
+		ref_depth_list = variant.format("RO")
+		alt_depth_list = variant.format("AO")
+		if alt_depth_list.shape[1] > 1:
+			multiple_alts = True
+		else:
+			multiple_alts = False
+###################### Finish this
+##################################
+		normal_genotype = gen_list[normal_idx][:2]
+		a1, a2 = normal_genotype
+		if a1 == 0:
+			a1_freq = ref_depth_list[normal_idx]
+
 		for idx, i in enumerate(samples):
 			genotype = gen_list[idx]
 			if genotype[:2] == [0, 0]:
