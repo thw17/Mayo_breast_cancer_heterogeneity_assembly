@@ -56,33 +56,47 @@ def main():
 
 	for variant in vcf:
 		gen_list = variant.genotype
-		ref_depth_list = variant.format("RO")
-		alt_depth_list = variant.format("AO")
-		if alt_depth_list.shape[1] > 1:
-			multiple_alts = True
-		else:
-			multiple_alts = False
-###################### Finish this
-##################################
-		normal_genotype = gen_list[normal_idx][:2]
-		a1, a2 = normal_genotype
-		if a1 == 0:
-			a1_freq = ref_depth_list[normal_idx]
-
-		for idx, i in enumerate(samples):
-			genotype = gen_list[idx]
-			if genotype[:2] == [0, 0]:
-				geno_dict[i].append(0)
-			elif genotype[:2] == [0, 1]:
-				geno_dict[i].append(1)
-			elif genotype[:2] == [1, 1]:
-				geno_dict[i].append(2)
-			elif genotype[:2] == [1, 2]:
-				geno_dict[i].append(3)
-			elif genotype[:2] == [2, 2]:
-				geno_dict[i].append(4)
+		if len(set([tuple(x) for x in gen_list])) > 1 or (len(set([tuple(x) for x in gen_list])) == 1 and gen_list[0][0] != gen_list[0][1]):
+			ref_depth_list = variant.format("RO")
+			alt_depth_list = variant.format("AO")
+			if alt_depth_list.shape[1] > 1:
+				multiple_alts = True
 			else:
-				geno_dict[i].append(5)
+				multiple_alts = False
+	###################### Finish this
+	##################################
+			normal_genotype = gen_list[normal_idx][:2]
+			a1, a2 = normal_genotype
+			if a1 == 0:
+				a1_freq = ref_depth_list[normal_idx]
+			else:
+				if multiple_alts is False:
+					a1_freq = alt_depth_list[normal_idx]
+				else:
+					a1_freq = alt_depth_list[normal_idx][a1 - 1]
+
+			if a2 == 0:
+				a2_freq = ref_depth_list[normal_idx]
+			else:
+				if multiple_alts is False:
+					a1_freq = alt_depth_list[normal_idx]
+				else:
+					a1_freq = alt_depth_list[normal_idx][a1 - 1]
+
+			for idx, i in enumerate(samples):
+				genotype = gen_list[idx]
+				if genotype[:2] == [0, 0]:
+					geno_dict[i].append(0)
+				elif genotype[:2] == [0, 1]:
+					geno_dict[i].append(1)
+				elif genotype[:2] == [1, 1]:
+					geno_dict[i].append(2)
+				elif genotype[:2] == [1, 2]:
+					geno_dict[i].append(3)
+				elif genotype[:2] == [2, 2]:
+					geno_dict[i].append(4)
+				else:
+					geno_dict[i].append(5)
 
 # Output genotype table
 output_list = []
