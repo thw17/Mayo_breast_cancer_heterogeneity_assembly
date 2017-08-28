@@ -114,11 +114,14 @@ def main():
 				else:
 					geno_dict[i].append(5)
 
-# Output genotype table
-output_list = []
-for indv in samples:
-	output_list.append(geno_dict[indv])
-outfile = args.output
-with open(outfile, "w") as f:
-	w = csv.writer(f, dialect="excel-tab")
-	w.writerows(output_list)
+	# Output genotype table
+	output_list = []
+	for indv in samples:
+		output_list.append(geno_dict[indv])
+	outfile = args.output
+	with open(outfile, "w") as f:
+		w = csv.writer(f, dialect="excel-tab")
+		w.writerows(output_list)
+
+if __name__ == "__main__":
+	main()
