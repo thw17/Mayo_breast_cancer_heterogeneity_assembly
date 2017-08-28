@@ -59,10 +59,10 @@ rule all:
 		expand(
 			"results/genotype_table_{individual}_{chrom}_{assembly}.txt",
 			individual=config["individuals"], chrom=config["chromosomes"],
-			assembly=config["reference_list"]),
-		expand(
-			"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz",
-			individual=config["individuals"], assembly=config["reference_list"])
+			assembly=config["reference_list"])
+		# expand(
+		# 	"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz",
+		# 	individual=config["individuals"], assembly=config["reference_list"])
 		# expand(
 		# 	"processed_bams/{sample}.hg38.sorted.bam",
 		# 	sample=config["sample_list"]),
@@ -372,24 +372,24 @@ rule index_zipped_filtered_vcfs:
 	shell:
 		"tabix -p vcf {input}"
 
-rule cat_chrom_vcfs:
-	input:
-		ref = "xyalign/reference/{assembly}.XXonly.fasta",
-		vcfs = expand(
-			"calls/{{individual}}.{chrom}.{{assembly}}.filtered.vcf.gz",
-			chrom=config["chromosomes"])
-	output:
-		"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz",
-		"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz.tbi"
-	params:
-		temp_dir = temp_dir_path,
-		gatk = gatk_path
-	run:
-		variant_files = []
-		for i in input.vcfs:
-			variant_files.append("-V " + i)
-		variant_files = " ".join(variant_files)
-		shell("java -Xmx16g -Djava.io.tmpdir={params.temp_dir} -cp {params.gatk_path} org.broadinstitute.gatk.tools.CatVariants -R {input.ref} -o {output}")
+# rule cat_chrom_vcfs:
+# 	input:
+# 		ref = "xyalign/reference/{assembly}.XXonly.fasta",
+# 		vcfs = expand(
+# 			"calls/{{individual}}.{chrom}.{{assembly}}.filtered.vcf.gz",
+# 			chrom=config["chromosomes"])
+# 	output:
+# 		"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz",
+# 		"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz.tbi"
+# 	params:
+# 		temp_dir = temp_dir_path,
+# 		gatk = gatk_path
+# 	run:
+# 		variant_files = []
+# 		for i in input.vcfs:
+# 			variant_files.append("-V " + i)
+# 		variant_files = " ".join(variant_files)
+# 		shell("java -Xmx16g -Djava.io.tmpdir={params.temp_dir} -cp {params.gatk_path} org.broadinstitute.gatk.tools.CatVariants -R {input.ref} -o {output}")
 
 rule compare_genotypes:
 	input:
