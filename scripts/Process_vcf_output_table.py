@@ -1,5 +1,6 @@
 from __future__ import print_function
 import argparse
+import csv
 import cyvcf2
 import numpy as np
 
