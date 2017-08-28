@@ -5,7 +5,7 @@ library("optparse")
 option_list <- list(
 	make_option(c("-w", "--working_directory"), action="store", type="character",
 		help="Working Directory"),
-	make_option(c("-c", "--chromosome",), action="store", type="character",
+	make_option(c("-c", "--chromosome"), action="store", type="character",
 		help="Name of chromosome"),
 	make_option(c("-i", "--input"), action="store", type="character",
 		help="Input text file"),
