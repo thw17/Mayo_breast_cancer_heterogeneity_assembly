@@ -429,7 +429,7 @@ rule make_sample_tables_for_genotypes:
 			lines = [x[0] for x in lines]
 		with open(output.names, "w") as f:
 			for i in lines:
-				f.write("{}\n".format(i))
+				f.write("{}\n".format(config["samplenames"][params.ind][i]))
 		with open(output.locations, "w") as f:
 			for i in lines:
 				f.write("{}\n".format(config["locations"][params.ind][i]))
