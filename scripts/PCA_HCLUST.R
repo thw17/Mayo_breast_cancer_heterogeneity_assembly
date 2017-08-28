@@ -3,19 +3,19 @@ library("ggplot2")
 library("optparse")
 
 option_list <- list(
-	make_option(c("--working_directory"), action="store", type="character",
+	make_option(c("-w", "--working_directory"), action="store", type="character",
 		help="Working Directory"),
-	make_option(c("--chromosome"), action="store", type="character",
+	make_option(c("-c", "--chromosome"), action="store", type="character",
 		help="Name of chromosome"),
-	make_option(c("--input"), action="store", type="character",
+	make_option(c("-i", "--input"), action="store", type="character",
 		help="Input text file"),
-	make_option(c("--output_pca"), action="store", type="character",
+	make_option(c("-p", "--output_pca"), action="store", type="character",
 		help="Output file for PCA"),
-	make_option(c("--output_hclust"), action="store", type="character",
+	make_option(c("-hc", "--output_hclust"), action="store", type="character",
 		help="Output file for cluster analysis"),
-	make_option(c("--sample_names"), action="store", type="character",
+	make_option(c("-n", "--sample_names"), action="store", type="character",
 		help="File containing sample names"),
-	make_option(c("--sample_types"), action="store", type="character",
+	make_option(c("-t", "--sample_types"), action="store", type="character",
 		help="File containing sample types/locations. Must be in same order as sample names")
 )
 
