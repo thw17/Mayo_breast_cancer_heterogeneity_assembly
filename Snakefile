@@ -36,7 +36,7 @@ mutect_path = "/home/thwebste/Tools/mutect-1.1.7.jar"
 xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
 xyalign_env_name = "breast_cancer_xyalign"
 
-chroms_plus_whole_genome = config["chromosomes"] + "WHOLE_GENOME"
+chroms_plus_whole_genome = config["chromosomes"] + ["WHOLE_GENOME"]
 
 rule all:
 	input:
