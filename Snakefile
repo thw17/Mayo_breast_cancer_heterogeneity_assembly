@@ -58,8 +58,11 @@ rule all:
 			sample=config["sample_list"], assembly=config["reference_list"]),
 		expand(
 			"results/genotype_table_{individual}_{chrom}_{assembly}.txt",
-			individual=config["individuals"], chrom=chroms_plus_whole_genome,
-			assembly=config["reference_list"])
+			individual=config["individuals"], chrom=config["chromosomes"],
+			assembly=config["reference_list"]),
+		expand(
+			"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz",
+			individual=config["individuals"], assembly=config["reference_list"])
 		# expand(
 		# 	"processed_bams/{sample}.hg38.sorted.bam",
 		# 	sample=config["sample_list"]),
@@ -376,8 +379,8 @@ rule cat_chrom_vcfs:
 			"calls/{{individual}}.{chrom}.{{assembly}}.filtered.vcf.gz",
 			chrom=config["chromosomes"])
 	output:
-		"calls/{individual}.WHOLE_GENOME.{assembly}.filtered.vcf.gz",
-		"calls/{individual}.WHOLE_GENOME.{assembly}.filtered.vcf.gz.tbi"
+		"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz",
+		"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz.tbi"
 	params:
 		temp_dir = temp_dir_path,
 		gatk = gatk_path
