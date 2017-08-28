@@ -65,6 +65,10 @@ rule all:
 		expand(
 			"results/samplenames_genotype_table_{individual}_{chrom}_{assembly}.txt",
 			individual=config["individuals"], chrom=config["chromosomes"],
+			assembly=config["reference_list"]),
+		expand(
+			"plots/pca_genotypes_{individual}_{chrom}_{assembly}.txt",
+			individual=config["individuals"], chrom=config["chromosomes"],
 			assembly=config["reference_list"])
 		# expand(
 		# 	"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz",
@@ -433,6 +437,20 @@ rule make_sample_tables_for_genotypes:
 		with open(output.locations, "w") as f:
 			for i in lines:
 				f.write("{}\n".format(config["locations"][params.ind][i]))
+
+rule plot_pca_genotypes:
+	input:
+		genotypes = "results/genotype_table_{individual}_{chrom}_{assembly}.txt",
+		names = "results/samplenames_genotype_table_{individual}_{chrom}_{assembly}.txt",
+		locations = "results/samplelocations_genotype_table_{individual}_{chrom}_{assembly}.txt"
+	output:
+		pca = "plots/pca_genotypes_{individual}_{chrom}_{assembly}.txt",
+		hclust = "plots/hclust_genotypes_{individual}_{chrom}_{assembly}.txt"
+	params:
+		rscript = rscript_path,
+		base_dir = os.path.dirname(os.path.abspath("results"))
+	shell:
+		"{params.rscript} scripts/PCA_HCLUST.R -w {params.base_dir}/results -c {wildcards.chrom} -i {params.base_dir}/{input.genotypes} -p {params.base_dir}/{output.pca} -h {params.base_dir}/{output.hclust} -n {params.base_dir}/{input.names} -t {params.base_dir}/{input.locations}"
 
 
 # rule prepare_reference_hg19:
