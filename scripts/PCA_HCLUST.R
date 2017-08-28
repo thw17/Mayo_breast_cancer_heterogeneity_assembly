@@ -11,7 +11,7 @@ option_list <- list(
 		help="Input text file"),
 	make_option(c("-p", "--output_pca"), action="store", type="character",
 		help="Output file for PCA"),
-	make_option(c("-hc", "--output_hclust"), action="store", type="character",
+	make_option(c("-d", "--output_hclust"), action="store", type="character",
 		help="Output file for cluster analysis"),
 	make_option(c("-n", "--sample_names"), action="store", type="character",
 		help="File containing sample names"),
