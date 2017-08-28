@@ -68,7 +68,7 @@ rule all:
 			individual=config["individuals"], chrom=config["chromosomes"],
 			assembly=config["reference_list"]),
 		expand(
-			"plots/pca_genotypes_{individual}_{chrom}_{assembly}.txt",
+			"plots/pca_genotypes_{individual}_{chrom}_{assembly}.pdf",
 			individual=config["individuals"], chrom=config["chromosomes"],
 			assembly=config["reference_list"])
 		# expand(
@@ -445,8 +445,8 @@ rule plot_pca_genotypes:
 		names = "results/samplenames_genotype_table_{individual}_{chrom}_{assembly}.txt",
 		locations = "results/samplelocations_genotype_table_{individual}_{chrom}_{assembly}.txt"
 	output:
-		pca = "plots/pca_genotypes_{individual}_{chrom}_{assembly}.txt",
-		hclust = "plots/hclust_genotypes_{individual}_{chrom}_{assembly}.txt"
+		pca = "plots/pca_genotypes_{individual}_{chrom}_{assembly}.pdf",
+		hclust = "plots/hclust_genotypes_{individual}_{chrom}_{assembly}.pdf"
 	params:
 		rscript = rscript_path,
 		base_dir = os.path.dirname(os.path.abspath("results"))
