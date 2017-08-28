@@ -61,6 +61,10 @@ rule all:
 		expand(
 			"results/genotype_table_{individual}_{chrom}_{assembly}.txt",
 			individual=config["individuals"], chrom=config["chromosomes"],
+			assembly=config["reference_list"]),
+		expand(
+			"results/genotype_table_{individual}_{chrom}_{assembly}_samplenames.txt",
+			individual=config["individuals"], chrom=config["chromosomes"],
 			assembly=config["reference_list"])
 		# expand(
 		# 	"calls/WHOLE_GENOME.{individual}.{assembly}.filtered.vcf.gz",
