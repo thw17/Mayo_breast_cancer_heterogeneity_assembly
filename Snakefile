@@ -451,7 +451,7 @@ rule plot_pca_genotypes:
 		rscript = rscript_path,
 		base_dir = os.path.dirname(os.path.abspath("results"))
 	shell:
-		"{params.rscript} scripts/PCA_HCLUST.R -w {params.base_dir}/results -c {wildcards.chrom} -i {params.base_dir}/{input.genotypes} -p {params.base_dir}/{output.pca} -h {params.base_dir}/{output.hclust} -n {params.base_dir}/{input.names} -t {params.base_dir}/{input.locations}"
+		"{params.rscript} scripts/PCA_HCLUST.R --working_directory {params.base_dir}/results --chromosome {wildcards.chrom} --input {params.base_dir}/{input.genotypes} --output_pca {params.base_dir}/{output.pca} --output_hclust {params.base_dir}/{output.hclust} --sample_names {params.base_dir}/{input.names} --sample_types {params.base_dir}/{input.locations}"
 
 
 # rule prepare_reference_hg19:
