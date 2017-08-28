@@ -63,7 +63,7 @@ rule all:
 			individual=config["individuals"], chrom=config["chromosomes"],
 			assembly=config["reference_list"]),
 		expand(
-			"results/genotype_table_samplenames_{individual}_{chrom}_{assembly}.txt",
+			"results/samplenames_genotype_table_{individual}_{chrom}_{assembly}.txt",
 			individual=config["individuals"], chrom=config["chromosomes"],
 			assembly=config["reference_list"])
 		# expand(
@@ -419,8 +419,8 @@ rule make_sample_tables_for_genotypes:
 	input:
 		"results/genotype_table_{individual}_{chrom}_{assembly}.txt"
 	output:
-		names = "results/genotype_table_samplenames_{individual}_{chrom}_{assembly}.txt",
-		locations = "results/genotype_table_samplelocations_{individual}_{chrom}_{assembly}.txt"
+		names = "results/samplenames_genotype_table_{individual}_{chrom}_{assembly}.txt",
+		locations = "results/samplelocations_genotype_table_{individual}_{chrom}_{assembly}.txt"
 	params:
 		ind = "{individual}"
 	run:
