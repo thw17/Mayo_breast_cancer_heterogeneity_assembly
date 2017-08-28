@@ -35,6 +35,7 @@ freebayes_path = "freebayes"
 gatk_path = "/home/thwebste/Tools/GenomeAnalysisTK_37.jar"
 mutect_path = "/home/thwebste/Tools/mutect-1.1.7.jar"
 # picard_path =
+rscript_path = "Rscript"
 xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
 xyalign_env_name = "breast_cancer_xyalign"
 
