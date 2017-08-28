@@ -34,6 +34,10 @@ def parse_args():
 def main():
 	args = parse_args()
 
+	print(
+		"VCF: {}, OUTPUT: {}, Normal: {}".format(
+			args.vcf, args.output, args.normal_sample))
+
 	vcf = cyvcf2.VCF(args.vcf)
 
 	samples = vcf.samples
