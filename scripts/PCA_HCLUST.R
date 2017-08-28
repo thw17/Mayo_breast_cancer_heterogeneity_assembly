@@ -25,7 +25,7 @@ opt = parse_args(OptionParser(option_list=option_list))
 setwd(opt$working_directory)
 
 chrom <- opt$chromosome
-input_file <- read.table(opt$input, sep="\t", header=False)
+input_file <- read.table(opt$input, sep="\t", header=FALSE)
 output_pca <- opt$output_pca
 output_hclust <- opt$output_hclust
 sample_names <- readLines(opt$sample_names)
