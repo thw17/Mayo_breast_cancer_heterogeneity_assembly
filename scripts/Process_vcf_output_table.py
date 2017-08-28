@@ -61,7 +61,7 @@ def main():
 		balance_dict[i] = [i]
 
 	for variant in vcf:
-		gen_list = variant.genotype
+		gen_list = variant.genotypes
 		# if len(set([tuple(x) for x in gen_list])) > 1 or (
 		# 			len(set([tuple(x) for x in gen_list])) == 1 and gen_list[0][0] != gen_list[0][1]):
 		# 	ref_depth_list = variant.format("RO")
