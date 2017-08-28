@@ -36,6 +36,8 @@ mutect_path = "/home/thwebste/Tools/mutect-1.1.7.jar"
 xyalign_path = "/scratch/thwebste/xyalign_test/XYalign/xyalign/xyalign.py"
 xyalign_env_name = "breast_cancer_xyalign"
 
+chroms_plus_whole_genome = config["chromosomes"] + "WHOLE_GENOME"
+
 rule all:
 	input:
 		expand(
@@ -53,7 +55,11 @@ rule all:
 			assembly=config["reference_list"]),
 		expand(
 			"stats/{sample}.{assembly}.mkdup.sorted.indelrealigned.bam.stats",
-			sample=config["sample_list"], assembly=config["reference_list"])
+			sample=config["sample_list"], assembly=config["reference_list"]),
+		expand(
+			"results/genotype_table_{individual}_{chrom}_{assembly}.txt",
+			individual=config["individuals"], chrom=chroms_plus_whole_genome,
+			assembly=config["reference_list"])
 		# expand(
 		# 	"processed_bams/{sample}.hg38.sorted.bam",
 		# 	sample=config["sample_list"]),
@@ -363,6 +369,25 @@ rule index_zipped_filtered_vcfs:
 	shell:
 		"tabix -p vcf {input}"
 
+rule cat_chrom_vcfs:
+	input:
+		ref = "xyalign/reference/{assembly}.XXonly.fasta",
+		vcfs = expand(
+			"calls/{{individual}}.{chrom}.{{assembly}}.filtered.vcf.gz",
+			chrom=config["chromosomes"])
+	output:
+		"calls/{individual}.WHOLE_GENOME.{assembly}.filtered.vcf.gz",
+		"calls/{individual}.WHOLE_GENOME.{assembly}.filtered.vcf.gz.tbi"
+	params:
+		temp_dir = temp_directory,
+		gatk_path = gatk
+	run:
+		variant_files = []
+		for i in input.vcfs:
+			variant_files.append("-V " + i)
+		variant_files = " ".join(variant_files)
+		shell("java -Xmx16g -Djava.io.tmpdir={params.temp_dir} -cp {params.gatk_path} org.broadinstitute.gatk.tools.CatVariants -R {input.ref} -o {output}")
+
 rule compare_genotypes:
 	input:
 		vcf = "calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz",
@@ -371,6 +396,15 @@ rule compare_genotypes:
 		"stats/{individual}.{chrom}.{assembly}.compare_genotypes.txt"
 	shell:
 		"python scripts/Compare_genotypes.py --input_vcf {input.vcf} --output {output} --mapq 0"
+
+rule output_table_from_vcf:
+	input:
+		vcf = "calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz",
+		idx = "calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz.tbi"
+	output:
+		"results/genotype_table_{individual}_{chrom}_{assembly}.txt"
+	shell:
+		"python scripts/Process_vcf_output_table.py --vcf {input.vcf} --output {output} "
 
 # rule prepare_reference_hg19:
 # 	input:

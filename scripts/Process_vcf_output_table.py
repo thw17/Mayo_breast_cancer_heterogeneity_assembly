@@ -56,33 +56,49 @@ def main():
 
 	for variant in vcf:
 		gen_list = variant.genotype
-		if len(set([tuple(x) for x in gen_list])) > 1 or (len(set([tuple(x) for x in gen_list])) == 1 and gen_list[0][0] != gen_list[0][1]):
-			ref_depth_list = variant.format("RO")
-			alt_depth_list = variant.format("AO")
-			if alt_depth_list.shape[1] > 1:
-				multiple_alts = True
-			else:
-				multiple_alts = False
-	###################### Finish this
-	##################################
-			normal_genotype = gen_list[normal_idx][:2]
-			a1, a2 = normal_genotype
-			if a1 == 0:
-				a1_freq = ref_depth_list[normal_idx]
-			else:
-				if multiple_alts is False:
-					a1_freq = alt_depth_list[normal_idx]
-				else:
-					a1_freq = alt_depth_list[normal_idx][a1 - 1]
+		# if len(set([tuple(x) for x in gen_list])) > 1 or (
+		# 			len(set([tuple(x) for x in gen_list])) == 1 and gen_list[0][0] != gen_list[0][1]):
+		# 	ref_depth_list = variant.format("RO")
+		# 	alt_depth_list = variant.format("AO")
+		# 	if alt_depth_list.shape[1] > 1:
+		# 		multiple_alts = True
+		# 	else:
+		# 		multiple_alts = False
+		#
+		# 	if len(set[tuple(x) for x in gen_list if x[0] != x[1]]) >= 1:
+		# 		het_present = True
+		# 		normal_genotype = gen_list[normal_idx][:2]
+		# 		a1, a2 = normal_genotype
+		# 		if a1 != a2:
+		# 			if a1 == 0:
+		# 				a1_freq = ref_depth_list[normal_idx]
+		# 			else:
+		# 				if multiple_alts is False:
+		# 					a1_freq = alt_depth_list[normal_idx]
+		# 				else:
+		# 					a1_freq = alt_depth_list[normal_idx][a1 - 1]
+		#
+		# 			if a2 == 0:
+		# 				a2_freq = ref_depth_list[normal_idx]
+		# 			else:
+		# 				if multiple_alts is False:
+		# 					a2_freq = alt_depth_list[normal_idx]
+		# 				else:
+		# 					a2_freq = alt_depth_list[normal_idx][a1 - 1]
+		#
+		# 			if a1_freq >= a2_freq:
+		# 				minor_allele = a2
+		# 				major_allele = a1
+		# 			else:
+		# 				minor_allele = a1
+		# 				major_allele = a2
+		# 		else:
+		# 			major_allele = a1
+		# 			minor_allele = None
+		# 	else:
+		# 		het_present = False
 
-			if a2 == 0:
-				a2_freq = ref_depth_list[normal_idx]
-			else:
-				if multiple_alts is False:
-					a1_freq = alt_depth_list[normal_idx]
-				else:
-					a1_freq = alt_depth_list[normal_idx][a1 - 1]
-
+		if len(set([tuple(x) for x in gen_list])) > 1:
 			for idx, i in enumerate(samples):
 				genotype = gen_list[idx]
 				if genotype[:2] == [0, 0]:
