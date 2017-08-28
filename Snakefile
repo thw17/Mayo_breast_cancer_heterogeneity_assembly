@@ -424,7 +424,7 @@ rule make_sample_tables_for_genotypes:
 	params:
 		ind = "{individual}"
 	run:
-		with open(input, "r") as f:
+		with open(input[0], "r") as f:
 			lines = [x.split("\t") for x in f.read().splitlines()]
 			lines = [x[0] for x in lines]
 		with open(output.names, "w") as f:
