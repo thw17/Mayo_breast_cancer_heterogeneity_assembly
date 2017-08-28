@@ -1,3 +1,5 @@
+import csv
+
 configfile: "breast_cancer_config.json"
 
 normal_1750 = "PS13-1750-RightBreast-N-P3"
@@ -400,7 +402,7 @@ rule compare_genotypes:
 	shell:
 		"python scripts/Compare_genotypes.py --input_vcf {input.vcf} --output {output} --mapq 0"
 
-rule output_table_from_vcf:
+rule output_genotype_table_from_vcf:
 	input:
 		vcf = "calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz",
 		idx = "calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz.tbi"
@@ -408,6 +410,26 @@ rule output_table_from_vcf:
 		"results/genotype_table_{individual}_{chrom}_{assembly}.txt"
 	shell:
 		"python scripts/Process_vcf_output_table.py --vcf {input.vcf} --output {output} "
+
+rule make_sample_tables_for_genotypes:
+	input:
+		"results/genotype_table_{individual}_{chrom}_{assembly}.txt"
+	output:
+		names = "results/genotype_table_{individual}_{chrom}_{assembly}_samplenames.txt",
+		locations = "results/genotype_table_{individual}_{chrom}_{assembly}_samplelocations.txt"
+	params:
+		ind = "{individual}"
+	run:
+		with open(input, "r") as f:
+			lines = [x.split("\t") for x in f.read().splitlines()]
+			lines = [x[0] for x in lines]
+		with open(output.names, "w") as f:
+			for i in lines:
+				f.write("{}\n".format(i))
+		with open(output.locations, "w") as f:
+			for i in lines:
+				f.write("{}\n".format(config["locations"][params.ind][i]))
+
 
 # rule prepare_reference_hg19:
 # 	input:
