@@ -44,7 +44,7 @@ input.pca <- prcomp(df2, center = TRUE)
 color_palette <- c("firebrick3","blue","black","green4")
 
 pdf(output_pca)
-pca_plot <- ggplot(input.pca,aes(x=PC1, y=PC2, color = input_table$location)) + geom_text(aes(label= rownames(input_table)), size =5) + ggtitle(paste(chrom, "PCA - PC1 and PC2", sep=" ") + scale_colour_manual(values=color_palette[1:length(unique(sample_types))]) + theme_bw()
+pca_plot <- ggplot(input.pca, aes(x=PC1, y=PC2, color = input_table$location)) + geom_text(aes(label= rownames(input_table)), size =5) + ggtitle(paste(chrom, "PCA - PC1 and PC2", sep=" ")) + scale_colour_manual(values=color_palette[1:length(unique(sample_types))]) + theme_bw()
 dev.off()
 
 dist_matrix <- dist(df2, method="euclidean")
