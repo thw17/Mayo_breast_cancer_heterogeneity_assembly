@@ -379,8 +379,8 @@ rule cat_chrom_vcfs:
 		"calls/{individual}.WHOLE_GENOME.{assembly}.filtered.vcf.gz",
 		"calls/{individual}.WHOLE_GENOME.{assembly}.filtered.vcf.gz.tbi"
 	params:
-		temp_dir = temp_directory,
-		gatk_path = gatk
+		temp_dir = temp_dir_path,
+		gatk = gatk_path
 	run:
 		variant_files = []
 		for i in input.vcfs:
