@@ -88,7 +88,6 @@
 
 
 	"sample_bams":{
-		"PS13-1750-A0-P4": "PS13-1750-A0-P4.FCC4G9MACXX_L4_ITAGCTT.bam",
 		"PS13-1750-A10-P4": "PS13-1750-A10-P4.FCC4G9MACXX_L7_IGATCAG.bam",
 		"PS13-1750-A1-P4": "PS13-1750-A1-P4.FCC4G9MACXX_L4_IGGCTAC.bam",
 		"PS13-1750-A2-P4": "PS13-1750-A2-P4.FCC4G9MACXX_L4_ICTTGTA.bam",
@@ -130,7 +129,6 @@
 	},
 
 	"sample_list": [
-		"PS13-1750-A0-P4",
 		"PS13-1750-A10-P4",
 		"PS13-1750-A1-P4",
 		"PS13-1750-A2-P4",
@@ -172,7 +170,6 @@
 	],
 
 	"PS13-1750": [
-		"PS13-1750-A0-P4",
 		"PS13-1750-A10-P4",
 		"PS13-1750-A1-P4",
 		"PS13-1750-A2-P4",
@@ -246,7 +243,6 @@
 			"PS13-585-Normal": "Normal"
 		},
 		"PS13-1750":{
-			"PS13-1750-A0-P4": "Primary",
 			"PS13-1750-A10-P4": "Primary",
 			"PS13-1750-A1-P4": "Primary",
 			"PS13-1750-A2-P4": "Primary",
@@ -292,7 +288,6 @@
 			"PS13-585-Normal": "Normal"
 		},
 		"PS13-1750":{
-			"PS13-1750-A0-P4": "A0-P4",
 			"PS13-1750-A10-P4": "A10-P4",
 			"PS13-1750-A1-P4": "A1-P4",
 			"PS13-1750-A2-P4": "A2-P4",
