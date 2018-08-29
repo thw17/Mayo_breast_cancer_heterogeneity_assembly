@@ -1,6 +1,7 @@
 library("ggfortify")
 library("ggplot2")
 library("optparse")
+library("dendextend")
 
 option_list <- list(
 	make_option(c("-w", "--working_directory"), action="store", type="character",
@@ -49,7 +50,22 @@ dev.off()
 
 dist_matrix <- dist(df2, method="euclidean")
 fit_hclust <- hclust(dist_matrix, method="ward.D")
+hcd <- as.dendrogram(fit_hclust)
 
 pdf(output_hclust)
-plot(fit_hclust, main = chrom, xlab= "")
+# Note "A2-P5" and "A2-P4" are only found in sample 1750, while "Normal" is found in both 1750 and 585
+# "B1-P3", "B2-P3", "D1-P3", "F1-P3", and "F2-P3" are the adjacent and distant nodes in 585
+# This code colors "Normal" blue and increases "Normal" line weight to 8 in both 1750 and 585
+# In 1750, it will also make "A2-P5" and "A2-P4" red, increase their line weight to 4, and make "A2-P5" a dashed line
+# In 585, it will increase all adjacent and distant node line weight to 4, change their color to red, and further make all distant nodes a dashed line
+hcd %>%
+	set("by_labels_branches_col", value = c("Normal"), TF_values = c("blue",1)) %>%
+	set("by_labels_branches_col", value = c(
+		"A2-P5", "A2-P4", "B1-P3", "B2-P3", "B3-P3", "D1-P3", "F1-P3", "F2-P3"), TF_values = c("red", Inf)) %>%
+	set("by_labels_branches_lwd", value = c(
+		"A2-P5", "A2-P4", "B1-P3", "B2-P3", "B3-P3", "D1-P3", "F1-P3", "F2-P3"), TF_values = c(4,Inf)) %>%
+	set("by_labels_branches_lwd", value = c("Normal"), TF_values = c(8,Inf)) %>%
+	set("by_labels_branches_lty", value = c("A2-P5", "B3-P3", "D1-P3", "F1-P3", "F2-P3"), TF_values = c(3,Inf)) %>%
+	set("labels_cex", c(1.5)) %>% plot(main = chrom)
+#plot(fit_hclust, main = chrom, xlab= "")
 dev.off()
