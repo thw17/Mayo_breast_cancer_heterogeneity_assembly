@@ -29,6 +29,11 @@ def parse_args():
 		"is 'major').  For example, a control or germline sample. If blank, "
 		"will use the first sample listed in the header as default.")
 
+	parser.add_argument(
+		"--ignore", nargs="*", default=[None],
+		help="Names of samples (must match the name in the VCF exactly) to "
+		"ignore")
+
 	args = parser.parse_args()
 
 	return args
@@ -44,6 +49,7 @@ def main():
 	vcf = cyvcf2.VCF(args.vcf)
 
 	samples = vcf.samples
+	samples = [x for x in samples if x not in args.ignore]
 
 	if args.normal_sample is None:
 		normal_idx = 0

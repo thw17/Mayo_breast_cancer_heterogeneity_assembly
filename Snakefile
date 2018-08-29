@@ -41,6 +41,8 @@ xyalign_env_name = "breast_cancer_xyalign"
 
 chroms_plus_whole_genome = config["chromosomes"] + ["WHOLE_GENOME"]
 
+ignore_list = ["PS13-1750-A0-P4"]
+
 rule all:
 	input:
 		expand(
@@ -417,8 +419,11 @@ rule output_genotype_table_from_vcf:
 		idx = "calls/{individual}.{chrom}.{assembly}.filtered.vcf.gz.tbi"
 	output:
 		"results/genotype_table_{individual}_{chrom}_{assembly}.txt"
+	params:
+		ignore = ignore_list
 	shell:
-		"python scripts/Process_vcf_output_table.py --vcf {input.vcf} --output {output} "
+		"python scripts/Process_vcf_output_table.py --vcf {input.vcf} "
+		"--output {output} --ignore {params.ignore}"
 
 rule make_sample_tables_for_genotypes:
 	input:
