@@ -30,8 +30,8 @@ while(i <= length(input_files)) {
 	print(i)
 }
 
-con <- consensus(phylo_list, p=0.5, check.labels=TRUE)
-print(con)
-phylo_list <- c(phylo_list, con)
+# con <- consensus(phylo_list, p=0.5, check.labels=TRUE)
+# print(con)
+# phylo_list <- c(phylo_list, con)
 
 write.nexus(phylo_list, file = output_file)
