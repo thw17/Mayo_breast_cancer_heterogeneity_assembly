@@ -32,8 +32,6 @@ output_hclust <- opt$output_hclust
 sample_names <- readLines(opt$sample_names)
 sample_types <- readLines(opt$sample_types)
 
-#if ((length(sample_names) == length(sample_types)) == FALSE) {stop("Length of sample names and lengths are not equal. Exiting")}
-
 # Read input
 input_table <- input_file[,-1]
 rownames(input_table) <- sample_names
