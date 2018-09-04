@@ -11,7 +11,7 @@ library("ape")
 args = commandArgs(trailingOnly=TRUE)
 
 output_file <- args[1]
-input_files <- args[2:]
+input_files <- args[-1]
 
 phylo_list <- vector("list", length(input_files))
 
