@@ -29,6 +29,6 @@ while(i <= length(input_files)) {
 	print(i)
 }
 
-phylo_list <- c(phylo_list, consensus(phylo_list, p=0.5, check.labels=TRUE)
+phylo_list <- c(phylo_list, consensus(phylo_list, p=0.5, check.labels=TRUE))
 
 write.nexus(phylo_list, file = output_file)
