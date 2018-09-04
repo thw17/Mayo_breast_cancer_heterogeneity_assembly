@@ -11,7 +11,9 @@ library("ape")
 args = commandArgs(trailingOnly=TRUE)
 
 output_file <- args[1]
+print(output_file)
 input_files <- args[-1]
+print(input_files)
 
 phylo_list <- vector("list", length(input_files))
 
@@ -23,6 +25,7 @@ while(i < length(input_files)) {
 	fit_hclust <- hclust(dist_matrix, method="ward.D")
 	phylo_list[[i]] <- as.phylo(fit_hclust)
 	i <- i + 1
+	print(i)
 }
 
 write.nexus(phylo_list, file = output_file)
