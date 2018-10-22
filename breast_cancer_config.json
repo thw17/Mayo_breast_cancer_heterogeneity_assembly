@@ -5,7 +5,7 @@
 	},
 
 	"reference_list": [
-		"hg19", "hg38"
+		"hg38"
 	],
 
 	"dbsnp": {
