@@ -48,6 +48,9 @@ ignore_list = ["PS13-1750-A0-P4"]
 rule all:
 	input:
 		expand(
+			"xyalign/logfiles/{sample}_strip_reads_xyalign.log",
+			sample=config["sample_list"]),
+		expand(
 			"xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
 			sample=config["sample_list"]),
 		expand(
@@ -119,26 +122,39 @@ rule all:
 		# 	chrom=config["chromosomes"]),
 		# expand("vcf/{sample}.585.hg19.mutect2.raw.vcf.gz", sample=tumor_585)
 
-rule all_no_genotyping:
-	input:
-		expand(
-			"stats/{sample}.{assembly}.mkdup.sorted.indelrealigned.bam.stats",
-			sample=config["sample_list"], assembly=config["reference_list"])
-
 rule strip_reads:
 	input:
 		bam = lambda wildcards: orig_bam_directory + config["sample_bams"][wildcards.sample]
 	output:
-		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
-		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz"
+		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log",
+		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq",
+		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq"
 	params:
 		xyalign = xyalign_path,
 		xyalign_env = xyalign_env_name,
 		sample_id = "{sample}_strip_reads",
 		xmx = "16g",
 		cpus = "4"
+	conda:
+		"environments/breast_cancer_xyalign.yaml"
 	shell:
-		"source activate {params.xyalign_env} && {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --cpus {params.cpus} --xmx {params.xmx} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
+		"python {params.xyalign} --STRIP_READS --ref null --bam {input.bam} --cpus {params.cpus} --xmx {params.xmx} --sample_id {params.sample_id} --output_dir xyalign --chromosomes ALL"
+
+rule gzip_stripped_reads:
+	# After stripping reads, they seemed to simply follow a "single read group
+	# per sample, with the sample name as the readgroup name" format.  So,
+	# should be able to simply gzip based on xyalign naming output fastqs
+	# after the read groups, which happen to be sample names
+	input:
+		logfile = "xyalign/logfiles/{sample}_strip_reads_xyalign.log",
+		fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq",
+		fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq"
+	output:
+		gz_fq1 = "xyalign/fastq/{sample}_strip_reads_{sample}_1.fastq.gz",
+		gz_fq2 = "xyalign/fastq/{sample}_strip_reads_{sample}_2.fastq.gz"
+	run:
+		shell("gzip {input.fq1}")
+		shell("gzip {input.fq2}")
 
 rule xyalign_create_xx_reference:
 	input:
@@ -149,10 +165,12 @@ rule xyalign_create_xx_reference:
 		xyalign = xyalign_path,
 		xyalign_env = xyalign_env_name,
 		gen_assembly = "{assembly}"
+	conda:
+		"environments/breast_cancer_xyalign.yaml"
 	threads:
 		4
 	shell:
-		"source activate {params.xyalign_env} && {params.xyalign} --PREPARE_REFERENCE --ref {input.ref} --bam null --xx_ref_out_name {params.gen_assembly}.XXonly.fasta --xy_ref_out_name {params.gen_assembly}.XY.fasta --output_dir xyalign --x_chromosome chrX --y_chromosome chrY"
+		"python {params.xyalign} --PREPARE_REFERENCE --ref {input.ref} --bam null --xx_ref_out {params.gen_assembly}.XXonly.fasta --xy_ref_out {params.gen_assembly}.XY.fasta --output_dir xyalign --x_chromosome chrX --y_chromosome chrY"
 
 rule prepare_reference:
 	input:
@@ -224,7 +242,7 @@ rule base_quality_recalibration_step1:
 		temp_dir = temp_dir_path,
 		java_mem = "-Xmx16g"
 	shell:
-		"module load java/8u92 && java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T BaseRecalibrator -R {input.ref} -I {input.bam} -o {output.recal} -knownSites {input.dbsnp_gz} -knownSites {input.mills_gz}"
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T BaseRecalibrator -R {input.ref} -I {input.bam} -o {output.recal} -knownSites {input.dbsnp_gz} -knownSites {input.mills_gz}"
 
 rule base_quality_recalibration_step2:
 	input:
@@ -238,7 +256,7 @@ rule base_quality_recalibration_step2:
 		temp_dir = temp_dir_path,
 		java_mem = "-Xmx16g"
 	shell:
-		"module load java/8u92 && java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BQSR {input.recal} -o {output.bam}"
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T PrintReads -R {input.ref} -I {input.bam} -BQSR {input.recal} -o {output.bam}"
 
 rule indel_targetcreator:
 	input:
@@ -252,7 +270,7 @@ rule indel_targetcreator:
 		temp_dir = temp_dir_path,
 		java_mem = "-Xmx16g"
 	shell:
-		"module load java/8u92 && java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T RealignerTargetCreator -R {input.ref} -I {input.bam} -o {output.target_list} -known {input.mills_gz}"
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T RealignerTargetCreator -R {input.ref} -I {input.bam} -o {output.target_list} -known {input.mills_gz}"
 
 rule indel_realignment:
 	input:
@@ -267,7 +285,7 @@ rule indel_realignment:
 		temp_dir = temp_dir_path,
 		java_mem = "-Xmx16g"
 	shell:
-		"module load java/8u92 && java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T IndelRealigner -R {input.ref} -I {input.bam} -o {output.bam} -known {input.mills_gz} -targetIntervals {input.target_list}"
+		"java {params.java_mem} -Djava.io.tmpdir={params.temp_dir} -jar {params.gatk} -T IndelRealigner -R {input.ref} -I {input.bam} -o {output.bam} -known {input.mills_gz} -targetIntervals {input.target_list}"
 
 rule freebayes_call_single_chrom:
 	input:
