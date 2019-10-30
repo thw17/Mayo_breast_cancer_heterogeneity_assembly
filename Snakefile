@@ -4,9 +4,11 @@ configfile: "breast_cancer_config.json"
 
 normal_1750 = "PS13-1750-RightBreast-N-P3"
 normal_585 = "PS13-585-Normal"
+normal_9062 = "PS13-9062-NL"
 
 tumor_1750 = [x for x in config["PS13-1750"] if x != normal_1750]
 tumor_585 = [x for x in config["PS13-585"] if x != normal_585]
+tumor_9062 = [x for x in config["PS13-9062"] if x != normal_9062]
 
 # hg19_ref_path = "reference/ucsc.hg19.fasta"
 # hg19_ref_prefix = "reference/ucsc.hg19"

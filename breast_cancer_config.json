@@ -19,7 +19,7 @@
 	},
 
 	"individuals": [
-		"PS13-1750", "PS13-585"
+		"PS13-1750", "PS13-585", "PS13-9062"
 	],
 
 	"chromosomes": [
@@ -125,7 +125,12 @@
 		"PS13-585-D1-P3": "PS13-585-D1-P3.FCC3L4BACXX_L8_IGGCTAC.bam",
 		"PS13-585-F1-P3": "PS13-585-F1-P3.FCC3L4BACXX_L4_IGGCTAC.bam",
 		"PS13-585-F2-P3": "PS13-585-F2-P3.FCC3L4BACXX_L4_ICTTGTA.bam",
-		"PS13-585-Normal": "PS13-585-Normal.FCC3L4BACXX_L8_ITAGCTT.bam"
+		"PS13-585-Normal": "PS13-585-Normal.FCC3L4BACXX_L8_ITAGCTT.bam",
+		"PS13-9062-NL": "PS13-9062-NL.FCC63F4ACXX_L4_IACAGTG.bam",
+		"PS13-9062F6-P4": "PS13-9062F6-P4.FCC63F4ACXX_L4_ITGACCA.bam",
+		"PS13-9062F5-P4": "PS13-9062F5-P4.FCC63F4ACXX_L3_ITTAGGC.bam",
+		"PS13-9062F4-P4": "PS13-9062F4-P4.FCC63F4ACXX_L3_ICGATGT.bam",
+		"PS13-9062F3-P4": "PS13-9062F3-P4.FCC63F4ACXX_L3_IATCACG.bam"
 	},
 
 	"sample_list": [
@@ -166,7 +171,12 @@
 		"PS13-585-D1-P3",
 		"PS13-585-F1-P3",
 		"PS13-585-F2-P3",
-		"PS13-585-Normal"
+		"PS13-585-Normal",
+		"PS13-9062-NL",
+		"PS13-9062F6-P4",
+		"PS13-9062F5-P4",
+		"PS13-9062F4-P4",
+		"PS13-9062F3-P4"
 	],
 
 	"PS13-1750": [
@@ -213,6 +223,14 @@
 		"PS13-585-Normal"
 	],
 
+	"PS13-9062": [
+		"PS13-9062-NL",
+		"PS13-9062F6-P4",
+		"PS13-9062F5-P4",
+		"PS13-9062F4-P4",
+		"PS13-9062F3-P4"
+	],
+
 	"locations": {
 		"PS13-585":{
 			"PS13-585-A10-P3": "Primary",
@@ -255,7 +273,15 @@
 			"PS13-1750-A8-P4": "Primary",
 			"PS13-1750-A9-P4": "Primary",
 			"PS13-1750-LeftBreast-N-P3": "Normal"
-		}
+		},
+
+		"PS13-9062": {
+			"PS13-9062-NL": "Normal",
+			"PS13-9062F6-P4": "Primary",
+			"PS13-9062F5-P4": "Primary",
+			"PS13-9062F4-P4": "Primary",
+			"PS13-9062F3-P4": "Primary"
+		},
 	},
 
 	"samplenames": {
@@ -300,14 +326,53 @@
 			"PS13-1750-A8-P4": "A8-P4",
 			"PS13-1750-A9-P4": "A9-P4",
 			"PS13-1750-LeftBreast-N-P3": "Normal"
+		},
+		"PS13-9062": {
+			"PS13-9062-NL": "Normal",
+			"PS13-9062F6-P4": "F6-P4",
+			"PS13-9062F5-P4": "F5-P4",
+			"PS13-9062F4-P4": "F4-P4",
+			"PS13-9062F3-P4": "F3-P4"
 		}
 	},
 
-	"PS13-1750-A0-P4": {
-		"ID": "PS13-1750-A0-P4",
-		"SM": "PS13-1750-A0-P4",
-		"LB": "PS13-1750-A0-P4",
-		"PU": "C4G9MACXX.4",
+	"PS13-9062F3-P4": {
+		"ID": "PS13-9062F3-P4",
+		"SM": "PS13-9062F3-P4",
+		"LB": "PS13-9062F3-P4",
+		"PU": "C5C2YACXX.7",
+		"PL": "Illumina"
+	},
+
+	"PS13-9062F4-P4": {
+		"ID": "PS13-9062F4-P4",
+		"SM": "PS13-9062F4-P4",
+		"LB": "PS13-9062F4-P4",
+		"PU": "C63F4ACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-9062F5-P4": {
+		"ID": "PS13-9062F5-P4",
+		"SM": "PS13-9062F5-P4",
+		"LB": "PS13-9062F5-P4",
+		"PU": "C63F4ACXX.3",
+		"PL": "Illumina"
+	},
+
+	"PS13-9062F6-P4": {
+		"ID": "PS13-9062F6-P4",
+		"SM": "PS13-9062F6-P4",
+		"LB": "PS13-9062F6-P4",
+		"PU": "C63F4ACXX.4",
+		"PL": "Illumina"
+	},
+
+	"PS13-9062-NL": {
+		"ID": "PS13-9062-NL",
+		"SM": "PS13-9062-NL",
+		"LB": "PS13-9062-NL",
+		"PU": "C63F4ACXX.4",
 		"PL": "Illumina"
 	},
 
